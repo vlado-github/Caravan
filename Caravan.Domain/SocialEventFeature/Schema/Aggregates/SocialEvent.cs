@@ -1,22 +1,25 @@
+using Caravan.Domain.Base;
 using Caravan.Domain.Shared.Enums;
 using Caravan.Domain.Shared.ValueObjects;
 using Caravan.Domain.SocialEventFeature.Events;
 
 namespace Caravan.Domain.SocialEventFeature.Schema.Aggregates;
 
-public class SocialEvent
+public class SocialEvent : AggregateRootBase
 {
-    public Guid Id { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
     public EventType Type { get; private set; }
     public EventStatus Status { get; private set; } = EventStatus.Draft;
+    public Guid? SocialGroupId { get; init; } = null;
+    public bool IsPrivate => !SocialGroupId.HasValue;
     public string Venue { get; private set; }
     public string City { get; private set; }
     public GeoLocation? Location { get; private set; } = null;
     public DateTimeOffset StartTime { get; private set; }
     public DateTimeOffset? EndTime { get; private set; } = null;
     public int TicketCirculationCount { get; private set; }
+    public Guid CreatedById { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset? PublishedAt { get; private set; } = null;
     public DateTimeOffset? CancelledAt { get; private set; } = null;
@@ -30,10 +33,12 @@ public class SocialEvent
             Description = @event.Description,
             Type = @event.Type,
             Status = EventStatus.Draft,
+            SocialGroupId = @event.SocialGroupId,
             Venue = @event.Venue,
             StartTime = @event.StartTime,
             EndTime = @event.EndTime,
             TicketCirculationCount = @event.TicketCirculationCount,
+            CreatedById = @event.CreatedByUserId,
             CreatedAt = DateTimeOffset.UtcNow
         };
     }

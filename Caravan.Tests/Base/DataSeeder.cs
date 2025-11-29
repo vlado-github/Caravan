@@ -45,6 +45,7 @@ public class DataSeeder : IAsyncDisposable
                     Title = _faker.Lorem.Sentence(3),
                     Description = _faker.Lorem.Paragraph(),
                     Type = EventType.OnSite,
+                    SocialGroupId = null,
                     StartTime = DateTimeOffset.UtcNow.AddDays(10),
                     EndTime = DateTimeOffset.UtcNow.AddDays(10).AddHours(2),
                     Venue = _faker.Address.FullAddress(),
