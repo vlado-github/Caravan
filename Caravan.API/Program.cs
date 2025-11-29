@@ -12,22 +12,24 @@ using Caravan.Domain.SocialEventFeature.Schema.Projections;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Wolverine.Marten;
+using Wolverine.Postgresql;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var configuration = new ConfigurationBuilder()
+// Environment configuration
+IConfigurationRoot configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json")
     .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
     .Build();
 
+// Logger setup
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(configuration) 
     .CreateLogger();
 builder.Host.UseSerilog();
 
-var connectionString = builder.Configuration.GetConnectionString("CaravanDatabase");
-
+// Wolverine setup
 builder.Host.UseWolverine(opts =>
 {
     opts.UseFluentValidation();
@@ -36,6 +38,8 @@ builder.Host.UseWolverine(opts =>
     opts.ApplicationAssembly = typeof(CreateSocialEventCommandHandler).Assembly;
 });
 
+// Marten database setup
+var connectionString = configuration.GetConnectionString("CaravanDatabase");
 builder.Services.AddMarten(opts =>
 {
     opts.Connection(connectionString!);
@@ -59,15 +63,13 @@ builder.Services.AddMarten(opts =>
 builder.Services.AddControllers();
 builder.Services.AddDomain();
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger setup
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
