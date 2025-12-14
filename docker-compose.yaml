@@ -10,16 +10,17 @@ services:
     restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - CARAVAN_DB_CONNECTION=Server=${DB_CONTAINER_NAME};Port=5432;Database=caravan;User Id=${DB_USER};Password=${DB_PASSWORD};SslMode=Prefer
     networks:
       - caravan-network
 
   db:
     image: postgres
-    container_name: caravan-db
+    container_name: ${DB_CONTAINER_NAME}
     environment:
       POSTGRES_DB: caravan
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres:/data/postgres
     ports:
@@ -27,6 +28,35 @@ services:
     networks:
       - caravan-network
     restart: unless-stopped
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.4
+    container_name: ${KEYCLOAK_CONTAINER_NAME}
+    command: start #--import-realm
+    environment:
+      KC_HOSTNAME: ${KEYCLOAK_HOST_NAME}
+      KC_PROXY_HEADERS: "xforwarded"
+      KC_HTTP_ENABLED: "true"
+      KC_HEALTH_ENABLED: "true"
+      KC_HOSTNAME_STRICT: "false" 
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+      KC_HOSTNAME_STRICT_BACKCHANNEL: "false"
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN_USER}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://${DB_CONTAINER_NAME}/keycloak
+      KC_DB_USERNAME: ${DB_USER}
+      KC_DB_PASSWORD: ${DB_PASSWORD}
+    # volumes:
+    #   - ./.keycloak/imports:/opt/keycloak/data/import
+    #   - ./.keycloak/keycloak-theme-for-kc-all-other-versions.jar:/opt/keycloak/providers/keycloak-theme.jar
+    ports:
+      - 8888:8080
+    restart: always
+    networks:
+      caravan-network:
+        aliases:
+          - keycloak.local
  
 networks:
   caravan-network:
