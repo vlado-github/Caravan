@@ -7,7 +7,7 @@ import Header from "./Header";
 
 const Layout: React.FC = () => {
   return (
-    <AppShell header={{ height: 60 }}>
+    <AppShell header={{ height: 60 }} padding="md">
       <AppShell.Header>
         <Header />
       </AppShell.Header>
