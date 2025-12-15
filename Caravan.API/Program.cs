@@ -16,6 +16,19 @@ using Wolverine.Postgresql;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Setup CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithOrigins(builder.Configuration.GetSection("CORS")["Allow"].Split(","))
+            .AllowCredentials();
+    });
+});
+
 // Environment configuration
 IConfigurationRoot configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
@@ -74,7 +87,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();

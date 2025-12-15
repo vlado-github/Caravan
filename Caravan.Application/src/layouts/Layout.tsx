@@ -1,0 +1,26 @@
+import React from "react";
+//import {  Outlet, useLocation } from "@tanstack/react-router";
+import { AppShell } from '@mantine/core';
+import { Outlet } from "@tanstack/react-router";
+import Footer from "./Footer";
+import Header from "./Header";
+
+const Layout: React.FC = () => {
+  return (
+    <AppShell header={{ height: 60 }}>
+      <AppShell.Header>
+        <Header />
+      </AppShell.Header>
+
+      <AppShell.Main> 
+        <Outlet />
+      </AppShell.Main>
+      
+      <AppShell.Footer>
+        <Footer />
+      </AppShell.Footer>
+    </AppShell>
+  );
+}
+
+export default Layout;
