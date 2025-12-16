@@ -15,6 +15,7 @@ function useSocialEventsListFetchUrl(request: PagedQueryRequest){
 }
 
 function getSocialEventsListPage(auth: AuthContextProps, fetchURL: string): Promise<DataTableQueryResponse<SocialEventResponse>> {
+    
     return fetch(fetchURL, {
             method: 'GET',
             headers: {
@@ -39,7 +40,7 @@ export function useSocialEventsPagedQuery(request: PagedQueryRequest): UseQueryR
         queryKey: [...SocialEventQueryKeys.paging, fetchURL],
         queryFn: async () =>
         {
-            return getSocialEventsListPage(auth, fetchURL);
+            return await getSocialEventsListPage(auth, fetchURL);
         }
     });
 }

@@ -9,6 +9,8 @@ using Caravan.Domain.DependencyInjection;
 using Caravan.Domain.SocialEventFeature.Commands;
 using Caravan.Domain.SocialEventFeature.Schema.Indexes;
 using Caravan.Domain.SocialEventFeature.Schema.Projections;
+using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Authorization;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Wolverine.Marten;
@@ -41,6 +43,16 @@ Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(configuration) 
     .CreateLogger();
 builder.Host.UseSerilog();
+
+// Setup Auth
+builder.Services
+    .AddKeycloakWebApiAuthentication(builder.Configuration, options =>
+    {
+        builder.Configuration.GetSection("Authentication:Schemes:Bearer").Bind(options);
+    });
+builder.Services
+    .AddAuthorization()
+    .AddKeycloakAuthorization(builder.Configuration);
 
 // Wolverine setup
 builder.Host.UseWolverine(opts =>
