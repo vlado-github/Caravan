@@ -1,6 +1,6 @@
 {
-  "Login": "Prijava",
-  "Logout": "Odjava",
+  "Signin": "Prijava",
+  "Signout": "Odjava",
   "sample": "primjer",
   "Pick language": "Odaberi jezik"
 }

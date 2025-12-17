@@ -23,7 +23,7 @@ const SigninButton: React.FC<SigninButtonProps> = ({onClose}) => {
 
   return (
     <Button onClick={handleSignin}>
-      {t("Login")}
+      {t("Signin")}
     </Button>
   );
 };

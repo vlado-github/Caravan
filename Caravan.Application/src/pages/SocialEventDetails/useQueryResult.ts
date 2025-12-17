@@ -5,16 +5,12 @@ import { useSocialEventsPagedQuery } from "../../api/socialevents/queries/get-so
 import type { SocialEventResponse } from "../../api/socialevents/responses/SocialEventResponse";
 import { socialEventsRoute } from "./SocialEvents";
 import type { GalleryViewModel } from "../../components/Gallery/GalleryViewModel";
+import { useSocialEventDetails } from "../../api/socialevents/queries/get-social-event-details";
 
 export function useQueryResult(): GalleryViewModel<SocialEventResponse> {
     const search = useSearch({from: socialEventsRoute.id});
 
-    const request = {
-      pageNumber: search?.start ?? DefaultConsts.FirstPageIndex,
-      pageSize: search?.size ?? DefaultConsts.RowsPerPage
-    } as PagedQueryRequest;
-
-    const { data, isLoading } = useSocialEventsPagedQuery(request);
+    const { data, isLoading } = useSocialEventDetails(search?.id ?? '');
 
     const viewModel: GalleryViewModel<SocialEventResponse> = {
       items: data?.items ?? [],

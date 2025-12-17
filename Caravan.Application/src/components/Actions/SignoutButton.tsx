@@ -18,7 +18,7 @@ const SignoutButton: React.FC<SignoutButtonProps> = ({onClose}) => {
 
   return (
     <Button onClick={handleSignout}>
-      {t("Logout")}
+      {t("Signout")}
     </Button>
   );
 };

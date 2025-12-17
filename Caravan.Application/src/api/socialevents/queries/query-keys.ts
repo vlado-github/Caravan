@@ -1,4 +1,5 @@
 export const SocialEventQueryKeys = {
   details: ['socialevent'],   
-  paging: ['socialevents']
+  paging: ['socialevents'],
+  drafts: ['draftsocialevents'],
 }

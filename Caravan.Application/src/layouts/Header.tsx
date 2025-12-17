@@ -12,10 +12,13 @@ const Header: React.FC = () => {
   return (
     <>
       <Group h="100%" px="md" justify="space-between">
-        <Anchor href="#">Caravan Logo</Anchor>
+        <Anchor href="/">Caravan Logo</Anchor>
         
         {/* Desktop Navigation */}
         <Group visibleFrom="sm">
+          <Anchor href="/groups">Groups</Anchor>
+          {auth.isAuthenticated ? <Anchor href="/drafts">Drafts</Anchor> : null}
+          {auth.isAuthenticated ? <Anchor href="/attending">Attending</Anchor> : null}
           <Anchor><LanguageSelector /></Anchor>
           <Anchor>
             {auth.isAuthenticated ? <SignoutButton /> : <SigninButton /> }
@@ -41,6 +44,9 @@ const Header: React.FC = () => {
         title="Menu"
       >
         <Stack gap="md">
+          <Anchor href="/groups">Groups</Anchor>
+          {auth.isAuthenticated ? <Anchor href="/drafts">Drafts</Anchor> : null}
+          {auth.isAuthenticated ? <Anchor href="/attending">Attending</Anchor> : null}
           <LanguageSelector onClose={toggle} />
 
           <Divider />

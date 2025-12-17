@@ -1,6 +1,6 @@
 {
-  "Login": "Login",
-  "Logout": "Logout",
+  "Signin": "Sign in",
+  "Signout": "Sign out",
   "sample": "sample",
   "Pick language": "Pick language"
 }
