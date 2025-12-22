@@ -7,10 +7,12 @@ public record SocialEventDrafted : EventBase
 {
     public string Title { get; init; }
     public string Description { get; init; }
+    public Guid? SocialGroupId { get; init; }
     public EventType Type { get; init; }
     public string Venue { get; init; }
     public DateTimeOffset StartTime { get; init; }
     public DateTimeOffset? EndTime { get; init; }
     public int TicketCirculationCount { get; init; }
+    public Guid CreatedByUserId { get; init; }
     
 }

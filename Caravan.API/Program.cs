@@ -9,12 +9,27 @@ using Caravan.Domain.DependencyInjection;
 using Caravan.Domain.SocialEventFeature.Commands;
 using Caravan.Domain.SocialEventFeature.Schema.Indexes;
 using Caravan.Domain.SocialEventFeature.Schema.Projections;
+using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Authorization;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Wolverine.Marten;
 using Wolverine.Postgresql;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Setup CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithOrigins(builder.Configuration.GetSection("CORS")["Allow"].Split(","))
+            .AllowCredentials();
+    });
+});
 
 // Environment configuration
 IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -28,6 +43,16 @@ Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(configuration) 
     .CreateLogger();
 builder.Host.UseSerilog();
+
+// Setup Auth
+builder.Services
+    .AddKeycloakWebApiAuthentication(builder.Configuration, options =>
+    {
+        builder.Configuration.GetSection("Authentication:Schemes:Bearer").Bind(options);
+    });
+builder.Services
+    .AddAuthorization()
+    .AddKeycloakAuthorization(builder.Configuration);
 
 // Wolverine setup
 builder.Host.UseWolverine(opts =>
@@ -74,7 +99,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();

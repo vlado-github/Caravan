@@ -14,6 +14,7 @@ public class SocialEventProfile: SingleStreamProjection<SocialEventProfileDetail
             Id = input.Id, 
             Title = input.Data.Title,
             Description = input.Data.Description,
+            SocialGroupId = input.Data.SocialGroupId,
             Type = input.Data.Type,
             Venue = input.Data.Venue,
             StartTime = input.Data.StartTime,
@@ -35,6 +36,7 @@ public class SocialEventProfileDetails
     public Guid Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
+    public Guid? SocialGroupId { get; set; }
     public EventType Type { get; set; }
     public EventStatus Status { get; set; }
     public string Venue { get; set; }

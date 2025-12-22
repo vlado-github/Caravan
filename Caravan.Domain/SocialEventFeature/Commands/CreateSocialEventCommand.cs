@@ -26,6 +26,7 @@ public record CreateSocialEventCommand(
     string Description, 
     EventType Type,
     string Venue,
+    Guid? SocialGroupId,
     DateTimeOffset StartTime,
     DateTimeOffset? EndTime,
     int TicketCirculationCount);
@@ -42,6 +43,7 @@ public class CreateSocialEventCommandHandler
             Description = command.Description,
             Type = command.Type,
             Venue = command.Venue,
+            SocialGroupId = command.SocialGroupId,
             StartTime = command.StartTime,
             EndTime = command.EndTime,
             TicketCirculationCount = command.TicketCirculationCount

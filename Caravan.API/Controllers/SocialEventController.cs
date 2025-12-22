@@ -4,6 +4,7 @@ using Caravan.Domain.SocialEventFeature.Commands;
 using Caravan.Domain.SocialEventFeature.Queries;
 using Caravan.Domain.SocialEventFeature.Schema.Aggregates;
 using Caravan.Domain.SocialEventFeature.Schema.Projections;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 
@@ -22,30 +23,35 @@ public class SocialEventController : ControllerBase
         _query = query;
     }
     
+    [Authorize]
     [HttpPost]
     public async Task<CommandResult> CreateSocialEvent(CreateSocialEventCommand command)
     {
         return await _bus.InvokeAsync<CommandResult>(command);
     }
     
+    [Authorize]
     [HttpPut("publish")]
     public async Task PublishSocialEvent(PublishSocialEventCommand command)
     {
         await _bus.InvokeAsync<CommandResult>(command);
     }
     
+    [Authorize]
     [HttpPut("reschedule")]
     public async Task RescheduleSocialEvent(RescheduleSocialEventCommand command)
     {
         await _bus.InvokeAsync<CommandResult>(command);
     }
     
+    [Authorize]
     [HttpPut("cancel")]
     public async Task CancelSocialEvent(CancelSocialEventCommand command)
     {
         await _bus.InvokeAsync<CommandResult>(command);
     }
     
+    [Authorize]
     [HttpPut("archive")]
     public async Task ArchiveSocialEvent(ArchiveSocialEventCommand command)
     {
