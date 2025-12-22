@@ -1,7 +1,7 @@
-import type { SocialEventStatus } from "../../base/enums/SocialEventStatus";
-import type { SocialEventType } from "../../base/enums/SocialEventType";
+import type { SocialEventStatus } from "../../api/base/enums/SocialEventStatus";
+import type { SocialEventType } from "../../api/base/enums/SocialEventType";
 
-export type SocialEventDetailsResponse = {
+export type PreviewViewModel = {
   id: string;
   title: string;
   description: string;
@@ -23,4 +23,5 @@ export type SocialEventDetailsResponse = {
   publishedAt: Date | null;
   cancelledAt: Date | null;
   archivedAt: Date | null;
+  isLoading: boolean;
 }

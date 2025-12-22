@@ -2,5 +2,10 @@
   "Signin": "Sign in",
   "Signout": "Sign out",
   "sample": "sample",
-  "Pick language": "Pick language"
+  "Pick language": "Pick language",
+  "Start time": "Start time",
+  "End time": "End time",
+  "date-format": "MMMM D,  YYYY",
+  "time-format": "h:mm a",
+  "At the time": "at"
 }

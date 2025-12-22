@@ -1,6 +1,11 @@
 {
   "Signin": "Prijava",
   "Signout": "Odjava",
-  "sample": "primjer",
-  "Pick language": "Odaberi jezik"
+  "sample": "primer",
+  "Pick language": "Odaberi jezik",
+  "Start time": "Vreme početka",
+  "End time": "Vreme završetka",
+  "date-format": "D. MMMM YYYY.",
+  "time-format": "HH:MM",
+  "At the time": "u"
 }

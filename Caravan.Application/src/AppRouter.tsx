@@ -8,6 +8,7 @@ import type { AuthContextProps } from "react-oidc-context";
 import Layout from "./layouts/Layout";
 import { socialEventsRoute } from "./pages/SocialEvents/SocialEvents";
 import { DefaultConsts } from "./consts/DefaultConsts";
+import { socialEventDetailsRoute } from "./pages/SocialEventDetails/SocialEventDetails";
 
 export interface RoutingContext {
   auth: AuthContextProps;
@@ -28,6 +29,7 @@ export const indexRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   socialEventsRoute,
+  socialEventDetailsRoute,
 ]);
 
 export const router = createRouter({

@@ -3,7 +3,7 @@
 import { Button } from "@mantine/core";
 import { t } from "i18next";
 import { useAuth } from "react-oidc-context";
-import { DefaultConsts } from "../../consts/DefaultConsts";
+import { useTranslation } from "react-i18next";
 
 interface SigninButtonProps {
   onClose?: () => void;
@@ -12,13 +12,11 @@ interface SigninButtonProps {
 const SigninButton: React.FC<SigninButtonProps> = ({onClose}) => {
   const auth = useAuth();
 
-  const language =
-    localStorage.getItem(DefaultConsts.LanguageStorageKey) ??
-    DefaultConsts.DefaultLanguage.value;
+  const { i18n } = useTranslation();
 
   const handleSignin = async () => {
     onClose?.();
-    await auth.signinRedirect({ ui_locales: language });
+    await auth.signinRedirect({ ui_locales: i18n.language });
   };
 
   return (

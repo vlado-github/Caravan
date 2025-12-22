@@ -6,6 +6,11 @@ import bosnianTranslation from './locales/bs/translation.json';
 import serbianTranslation from './locales/sr/translation.json';
 import croatianTranslation from './locales/hr/translation.json';
 import { DefaultConsts } from "./consts/DefaultConsts";
+import 'dayjs/locale/en';
+import 'dayjs/locale/bs';
+import 'dayjs/locale/sr';
+import 'dayjs/locale/hr';
+import dayjs from "dayjs";
 
 const resources = {
   en: { translation: englishTranslation },
@@ -28,4 +33,6 @@ i18n
     }
   });
 
-  export default i18n;
+dayjs.locale(savedLanguage);
+
+export default i18n;

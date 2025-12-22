@@ -1,8 +1,12 @@
 import type { SocialEventStatus } from '../../api/base/enums/SocialEventStatus';
 import type { SocialEventType } from '../../api/base/enums/SocialEventType';
 import { DefaultConsts } from '../../consts/DefaultConsts';
-import styles from './Preview.module.css';
-import { Image } from '@mantine/core';
+import DateTimeDisplay from '../DateTime/DateTimeDisplay';
+import styles from './Preview.module.scss';
+import { Grid, Image } from '@mantine/core';
+import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
+import PreviewActionsSection from './PreviewActionsSection';
 
 interface PreviewProps{
     event: {
@@ -11,7 +15,7 @@ interface PreviewProps{
       description: string;
       type: SocialEventType;
       status: SocialEventStatus;
-      isProvate: boolean;
+      isPrivate: boolean;
       venue: string;
       city: string;
       location: {
@@ -31,21 +35,34 @@ interface PreviewProps{
 }
 
 const Preview: React.FC<PreviewProps> = ({ event }) => {
+  const { t } = useTranslation();
+
   return (
-      <div className={styles.socialEventPreview}>     
+    <Grid>
+      <Grid.Col span={{ base : 12, sm: 6, md: 4, lg: 3 }}>
         <Image
           src={event.imageUrl}
           alt={event.title}
           className={styles.socialEventPreviewImage}
           fallbackSrc={DefaultConsts.PlaceholderImage}
         />
-        <div className={styles.socialEventPreviewContent}>
-            <h3 className={styles.socialEventPreviewTitle}>{event.title}</h3>
-            <p className={styles.socialEventPreviewDescription}>{event.description}</p>
-            <p className={styles.socialEventPreviewDate}>{new Date(event.startTime).toLocaleDateString()}</p>
-            { event.endTime != null ? <p className={styles.socialEventPreviewDate}>{new Date(event.endTime).toLocaleDateString()}</p> : null }
+      </Grid.Col>
+      <Grid.Col span={{ base : 12, sm: 6, md: 4, lg: 3 }}>
+        <div>
+          <h3 className={styles.socialEventPreviewTitle}>{event.title}</h3>
+          <p className={styles.socialEventPreviewDescription}>{event.description}</p>
+          <p className={styles.socialEventPreviewDate}>
+            <DateTimeDisplay label={t("Start time")} dateTime={event.startTime}/>
+          </p>
+          <p className={styles.socialEventPreviewDate}>
+            <DateTimeDisplay label={t("End time")} dateTime={event.endTime}/>
+          </p>
         </div>
-      </div>
+        <div>
+          <PreviewActionsSection eventId={event.id} />
+        </div>
+      </Grid.Col>
+    </Grid>
   );
 }
 

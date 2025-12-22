@@ -1,22 +1,20 @@
-import { useSearch } from "@tanstack/react-router";
-import type { PagedQueryRequest } from "../../api/groups/requests/PagedQueryRequest";
-import { DefaultConsts } from "../../consts/DefaultConsts";
-import { useSocialEventsPagedQuery } from "../../api/socialevents/queries/get-social-events-list";
-import type { SocialEventResponse } from "../../api/socialevents/responses/SocialEventResponse";
-import { socialEventsRoute } from "./SocialEvents";
-import type { GalleryViewModel } from "../../components/Gallery/GalleryViewModel";
+import { useParams } from "@tanstack/react-router";
+import { socialEventDetailsRoute } from "./SocialEventDetails";
 import { useSocialEventDetails } from "../../api/socialevents/queries/get-social-event-details";
+import type { PreviewViewModel } from "../../components/Preview/PreviewViewModel";
 
-export function useQueryResult(): GalleryViewModel<SocialEventResponse> {
-    const search = useSearch({from: socialEventsRoute.id});
+export function useQueryResult(): PreviewViewModel {
+    const params = useParams({from: socialEventDetailsRoute.id});
 
-    const { data, isLoading } = useSocialEventDetails(search?.id ?? '');
+    const { data, isLoading } = useSocialEventDetails(params?.eventId ?? '');
 
-    const viewModel: GalleryViewModel<SocialEventResponse> = {
-      items: data?.items ?? [],
-      totalItemCount: data?.totalItemCount ?? 0,
-      pageCount: data?.pageCount ?? 0,
+    if (!data) {
+      return {} as PreviewViewModel;
+    }
+    
+    const viewModel: PreviewViewModel = {
+      ...data,
       isLoading: isLoading
-    };
+    }
     return viewModel;
 }

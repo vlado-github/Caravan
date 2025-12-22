@@ -6,12 +6,13 @@ interface GalleryTileProps {
   imageSrc: string;
   title: string;
   description: string;
+  onClick: () => void;
 }
 
-const GalleryTile : React.FC<GalleryTileProps> = ({ imageSrc, title, description }) => {
+const GalleryTile : React.FC<GalleryTileProps> = ({ onClick, imageSrc, title, description }) => {
   
   return (
-      <div className={styles.galleryTile}>  
+      <div className={styles.galleryTile} onClick={onClick}>  
         <Image
           src={imageSrc}
           alt={title}
