@@ -4,7 +4,6 @@ import { DefaultConsts } from '../../consts/DefaultConsts';
 import DateTimeDisplay from '../DateTime/DateTimeDisplay';
 import styles from './Preview.module.scss';
 import { Grid, Image } from '@mantine/core';
-import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import PreviewActionsSection from './PreviewActionsSection';
 
