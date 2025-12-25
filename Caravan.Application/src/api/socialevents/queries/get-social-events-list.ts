@@ -10,8 +10,10 @@ const urls = {
 };
 
 function useSocialEventsListFetchUrl(request: PagedQueryRequest){
-  const url = `${urls.list}/${request.pageNumber}/${request.pageSize}`;
-  return url;
+  const url = urls.list;
+  url.searchParams.set('pageNumber', `${request.pageNumber}`);
+  url.searchParams.set('pageSize', `${request.pageSize}`);
+  return url.href;
 }
 
 function getSocialEventsListPage(auth: AuthContextProps, fetchURL: string): Promise<DataTableQueryResponse<SocialEventResponse>> {

@@ -5,6 +5,7 @@ using JasperFx.Events.Daemon;
 using Marten;
 using Serilog;
 using Caravan.API.Middlewares;
+using Caravan.Domain.Base;
 using Caravan.Domain.DependencyInjection;
 using Caravan.Domain.SocialEventFeature.Commands;
 using Caravan.Domain.SocialEventFeature.Schema.Indexes;
@@ -18,7 +19,11 @@ using Wolverine.Postgresql;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Setup CORS
+// Add user context
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserContext, UserContext>();
+
+// Setup CORS
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>

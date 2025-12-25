@@ -1,18 +1,19 @@
 using Marten.Pagination;
 using Caravan.Domain.Base;
-using Caravan.Domain.Shared.Enums;
-using Caravan.Domain.SocialEventFeature.Schema.Aggregates;
 using Caravan.Domain.SocialEventFeature.Schema.Projections;
 
 namespace Caravan.Domain.SocialEventFeature.Queries;
 
 public partial class SocialEventQuery
 {
-    public async Task<PagedResult<SocialEventProfileDetails>> List(EventStatus eventStatus, int pageNumber = 1, int pageSize = 10)
+    public async Task<PagedResult<SocialEventProfileDetails>> List(
+        SocialEventQueryFilter filter,
+        int pageNumber = 1, 
+        int pageSize = 10)
     {
-        var result = await _querySession
+        var result = await _querySession 
             .Query<SocialEventProfileDetails>()
-            .Where(x => x.Status == eventStatus)
+            .Filter(filter)
             .ToPagedListAsync(pageNumber, pageSize);
 
         return new PagedResult<SocialEventProfileDetails>

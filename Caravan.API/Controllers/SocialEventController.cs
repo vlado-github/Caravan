@@ -16,11 +16,13 @@ public class SocialEventController : ControllerBase
 {
     private readonly IMessageBus _bus;
     private readonly ISocialEventQuery  _query;
+    private readonly IUserContext _userContext;
     
-    public SocialEventController(IMessageBus bus, ISocialEventQuery query)
+    public SocialEventController(IMessageBus bus, ISocialEventQuery query, IUserContext userContext)
     {
         _bus = bus;
         _query = query;
+        _userContext = userContext;
     }
     
     [Authorize]
@@ -64,9 +66,27 @@ public class SocialEventController : ControllerBase
         return await _query.GetById(id);
     }
     
-    [HttpGet("list/{pageNumber}/{pageSize}")]
-    public async Task<PagedResult<SocialEventProfileDetails>> GetSocialEvents([FromRoute] int pageNumber, [FromRoute] int pageSize)
+    [HttpGet("list")]
+    public async Task<PagedResult<SocialEventProfileDetails>> GetSocialEvents(
+        [FromQuery] int pageNumber, 
+        [FromQuery] int pageSize)
     {
-        return await _query.List(EventStatus.Published, pageNumber, pageSize);
+        return await _query.List(new SocialEventQueryFilter()
+        {
+            Status = EventStatus.Published
+        }, pageNumber, pageSize);
+    }
+    
+    [Authorize]
+    [HttpGet("drafts")]
+    public async Task<PagedResult<SocialEventProfileDetails>> GetDraftedSocialEvents(
+        [FromQuery] int pageNumber, 
+        [FromQuery] int pageSize)
+    {
+        return await _query.List(new SocialEventQueryFilter()
+        {
+            Status = EventStatus.Draft,
+            CreatedByUserId = _userContext.UserId
+        }, pageNumber, pageSize);
     }
 }
