@@ -1,4 +1,5 @@
-﻿using Caravan.Domain.Shared.Enums;
+﻿using System.Security.Claims;
+using Caravan.Domain.Shared.Enums;
 using Caravan.Domain.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
 
@@ -21,7 +22,7 @@ public class UserContext : IUserContext
                 c => c.Type == CustomClaimTypes.UserId)?.Value;
             if (string.IsNullOrEmpty(claimValue))
             {
-                throw new RecordNotFoundException($"Claim type {CustomClaimTypes.UserId} is missing a value.");
+                throw new ArgumentNullException(nameof(CustomClaimTypes.UserId), $"Claim type {CustomClaimTypes.UserId} is missing a value.");
             }
             
             return Guid.Parse(claimValue);  
@@ -36,7 +37,7 @@ public class UserContext : IUserContext
                 c => c.Type == CustomClaimTypes.UserFullname)?.Value;
             if (string.IsNullOrEmpty(claimValue))
             {
-                throw new RecordNotFoundException($"Claim type {CustomClaimTypes.UserFullname} is missing a value.");
+                throw new ArgumentNullException(nameof(CustomClaimTypes.UserId), $"Claim type {CustomClaimTypes.UserFullname} is missing a value.");
             }
             return claimValue;  
         }

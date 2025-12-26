@@ -5,7 +5,7 @@ import DateTimeDisplay from '../DateTime/DateTimeDisplay';
 import styles from './Preview.module.scss';
 import { Grid, Image } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import PreviewActionsSection from './PreviewActionsSection';
+import type { ReactElement } from 'react';
 
 interface PreviewProps{
     event: {
@@ -30,10 +30,11 @@ interface PreviewProps{
       publishedAt: Date | null;
       cancelledAt: Date | null;
       archivedAt: Date | null;
-    }
+    },
+    actions?: ReactElement;
 }
 
-const Preview: React.FC<PreviewProps> = ({ event }) => {
+const Preview: React.FC<PreviewProps> = ({ event, actions }) => {
   const { t } = useTranslation();
 
   return (
@@ -58,7 +59,7 @@ const Preview: React.FC<PreviewProps> = ({ event }) => {
           </p>
         </div>
         <div>
-          <PreviewActionsSection eventId={event.id} />
+          {actions}
         </div>
       </Grid.Col>
     </Grid>

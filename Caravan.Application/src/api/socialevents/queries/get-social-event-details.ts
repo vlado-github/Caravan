@@ -1,6 +1,4 @@
-import type { AuthContextProps } from "react-oidc-context";
 import type { SocialEventDetailsResponse } from "../responses/SocialEventDetailsResponse";
-import { useAuth } from "react-oidc-context";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { SocialEventQueryKeys } from "./query-keys";
 
@@ -13,12 +11,11 @@ function useSocialEventDetailsFetchUrl(socialEventId: string){
   return url;
 }
 
-function getSocialEventDetails(auth: AuthContextProps, fetchURL: string): Promise<SocialEventDetailsResponse> {
+function getSocialEventDetails(fetchURL: string): Promise<SocialEventDetailsResponse> {
   return fetch(fetchURL, {
           method: 'GET',
           headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${auth.user?.access_token}`
+              'Content-Type': 'application/json'
           }
       })
       .then((res) => res.json() as unknown as SocialEventDetailsResponse)
@@ -29,14 +26,13 @@ function getSocialEventDetails(auth: AuthContextProps, fetchURL: string): Promis
 };
 
 function useSocialEventDetails(socialEventId: string): UseQueryResult<SocialEventDetailsResponse> {
-  const auth = useAuth();
   const fetchURL = useSocialEventDetailsFetchUrl(socialEventId);  
 
   return useQuery<SocialEventDetailsResponse>({
       queryKey: [...SocialEventQueryKeys.details, socialEventId],
       queryFn: async () =>
       {
-          return await getSocialEventDetails(auth, fetchURL);
+        return await getSocialEventDetails(fetchURL);
       }
   });
 }

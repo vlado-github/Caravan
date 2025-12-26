@@ -24,7 +24,7 @@ export function useCreateGroup() {
                     }
                 }).then((res) => {
                     if (res.ok) {
-                        queryClient.invalidateQueries({ queryKey: GroupQueryKeys.paging });
+                        queryClient.invalidateQueries({ queryKey: GroupQueryKeys.list });
                     }
                     return res.json() as unknown as number;
                 }).catch((error) => {

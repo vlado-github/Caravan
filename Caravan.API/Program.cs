@@ -15,7 +15,6 @@ using Keycloak.AuthServices.Authorization;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Wolverine.Marten;
-using Wolverine.Postgresql;
 
 var builder = WebApplication.CreateBuilder(args);
 

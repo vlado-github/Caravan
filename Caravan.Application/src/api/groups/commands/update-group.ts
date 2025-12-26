@@ -23,7 +23,7 @@ export function useUpdateGroup() {
                     }
                 }).then((res) => {
                     if (res.ok) {
-                      queryClient.invalidateQueries({ queryKey: [GroupQueryKeys.paging ] });
+                      queryClient.invalidateQueries({ queryKey: [GroupQueryKeys.list ] });
                     }
                 }).catch((error) => {
                     console.error('Error updating group:', error);

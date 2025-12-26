@@ -2,6 +2,8 @@ import { AuthProvider, useAuth } from 'react-oidc-context';
 import { RouterProvider } from '@tanstack/react-router';
 import { router } from './AppRouter.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ModalsProvider } from '@mantine/modals';
+import AppModals from './components/Modals/AppModals.ts';
 
 const queryClient = new QueryClient();
 
@@ -19,9 +21,11 @@ const oidcConfig = {
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider {...oidcConfig}>
-        <AppWithAuth />
-      </AuthProvider>
+      <ModalsProvider modals={AppModals.getModals()}>
+        <AuthProvider {...oidcConfig}>
+          <AppWithAuth />
+        </AuthProvider>
+      </ModalsProvider>
     </QueryClientProvider>
   )
 }
