@@ -6,10 +6,12 @@ interface GalleryTileProps {
   imageSrc: string;
   title: string;
   description: string;
+  maxDescriptionLength: number;
   onClick: () => void;
 }
 
-const GalleryTile : React.FC<GalleryTileProps> = ({ onClick, imageSrc, title, description }) => {
+const GalleryTile : React.FC<GalleryTileProps> = ({ onClick, imageSrc, title, description, maxDescriptionLength }) => {
+  const moreDetails = description.length > maxDescriptionLength ? '...' : '';
   
   return (
       <div className={styles.galleryTile} onClick={onClick}>  
@@ -21,7 +23,7 @@ const GalleryTile : React.FC<GalleryTileProps> = ({ onClick, imageSrc, title, de
         />
         <div className={styles.galleryTileContent}>
             <h3 className={styles.galleryTileTitle}>{title}</h3>   
-            <p className={styles.galleryTileDescription}>{description}</p>
+            <p className={styles.galleryTileDescription}>{`${description.substring(0, maxDescriptionLength)}${moreDetails}`}</p>
         </div>
       </div>
   );

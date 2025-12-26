@@ -30,7 +30,7 @@ const SocialEvents: React.FC = () => {
     );
 
   return (
-    <GalleryLayout viewModel={result} actions={actions} />
+    <GalleryLayout viewModel={result} actions={actions} maxItemDescriptionLength={DefaultConsts.MaxDescriptionLengthInGallery} />
   );
 }
 

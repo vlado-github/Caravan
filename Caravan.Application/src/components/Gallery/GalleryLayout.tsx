@@ -10,9 +10,10 @@ import { useTranslation } from "react-i18next";
 interface GalleryLayoutProps {
   viewModel: GalleryViewModel<SocialEventResponse>;
   actions?: ReactElement;
+  maxItemDescriptionLength: number;
 }
 
-const GalleryLayout: React.FC<GalleryLayoutProps> = ({viewModel, actions}) => {
+const GalleryLayout: React.FC<GalleryLayoutProps> = ({viewModel, actions, maxItemDescriptionLength}) => {
   const navigate = useNavigate();
   const {t} = useTranslation();
 
@@ -37,7 +38,8 @@ const GalleryLayout: React.FC<GalleryLayoutProps> = ({viewModel, actions}) => {
               imageSrc={item.imageUrl == '' ? DefaultConsts.PlaceholderImage : item.imageUrl} 
               title={item.title} 
               onClick={() => onClickAction(item.id)}
-              description={item.description} />
+              description={item.description}
+              maxDescriptionLength={maxItemDescriptionLength} />
           </Grid.Col>
         ))}
       </Grid>

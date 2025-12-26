@@ -11,7 +11,7 @@ const SocialEvents: React.FC = () => {
   const result = useQueryResult();
 
   return (
-    <GalleryLayout viewModel={result} />
+    <GalleryLayout viewModel={result} maxItemDescriptionLength={DefaultConsts.MaxDescriptionLengthInGallery} />
   );
 }
 
