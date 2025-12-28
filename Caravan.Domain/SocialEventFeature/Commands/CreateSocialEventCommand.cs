@@ -11,9 +11,20 @@ public class CreateSocialEventCommandValidator : AbstractValidator<CreateSocialE
 {
     public CreateSocialEventCommandValidator()
     {
-        RuleFor(x => x.Title).NotNull().NotEmpty();
+        RuleFor(x => x.Title)
+            .NotNull()
+            .NotEmpty()
+            .MinimumLength(2);
+        RuleFor(x => x.Description)
+            .NotNull()
+            .NotEmpty()
+            .MinimumLength(50);
         RuleFor(x => x.Type).NotNull();
-        RuleFor(x => x.Venue).NotNull().NotEmpty();
+        RuleFor(x => x.Venue)
+            .NotNull()
+            .When(x => x.Type == EventType.OnSite)
+            .NotEmpty()
+            .When(x => x.Type == EventType.OnSite);
         RuleFor(x => x.StartTime).NotNull();
         RuleFor(x => x.EndTime)
             .GreaterThan(x => x.StartTime)
@@ -29,7 +40,7 @@ public record CreateSocialEventCommand(
     Guid? SocialGroupId,
     DateTimeOffset StartTime,
     DateTimeOffset? EndTime,
-    int TicketCirculationCount);
+    int? TicketCirculationCount);
 
 public class CreateSocialEventCommandHandler
 {

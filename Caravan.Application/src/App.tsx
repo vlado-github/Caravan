@@ -21,17 +21,25 @@ const oidcConfig = {
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ModalsProvider modals={AppModals.getModals()}>
-        <AuthProvider {...oidcConfig}>
+      <AuthProvider {...oidcConfig}>
+        <ModalsProvider modals={AppModals.getModals()}>
           <AppWithAuth />
-        </AuthProvider>
-      </ModalsProvider>
+        </ModalsProvider>
+      </AuthProvider>
     </QueryClientProvider>
   )
 }
 
 function AppWithAuth() {
   const auth = useAuth();
+
+  if (auth.isLoading) {
+    return <div>Loading authentication…</div>;
+  }
+
+  if (auth.error) {
+    return <div>Auth error: {auth.error.message}</div>;
+  }
 
   return (
     <RouterProvider router={router} context={{ auth }} />

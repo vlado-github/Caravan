@@ -1,5 +1,5 @@
 import {
-  createRootRoute,
+  createRootRouteWithContext,
   createRoute,
   createRouter,
   redirect,
@@ -15,7 +15,7 @@ export interface RoutingContext {
   auth: AuthContextProps;
 }
 
-export const rootRoute = createRootRoute({
+export const rootRoute = createRootRouteWithContext<RoutingContext>()({
   component: Layout,
 });
 

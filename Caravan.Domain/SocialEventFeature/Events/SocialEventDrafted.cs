@@ -12,7 +12,7 @@ public record SocialEventDrafted : EventBase
     public string Venue { get; init; }
     public DateTimeOffset StartTime { get; init; }
     public DateTimeOffset? EndTime { get; init; }
-    public int TicketCirculationCount { get; init; }
+    public int? TicketCirculationCount { get; init; }
     public Guid CreatedByUserId { get; init; }
     
 }

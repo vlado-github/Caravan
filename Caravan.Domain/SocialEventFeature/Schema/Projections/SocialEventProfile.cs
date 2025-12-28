@@ -43,6 +43,6 @@ public class SocialEventProfileDetails
     public string Venue { get; set; }
     public DateTimeOffset StartTime { get; set; }
     public DateTimeOffset? EndTime { get; set; } = null;
-    public int TicketCirculationCount { get; set; }
+    public int? TicketCirculationCount { get; set; }
     public Guid CreatedByUserId { get; set; }
 }

@@ -27,7 +27,7 @@ public class SocialEventController : ControllerBase
     
     [Authorize]
     [HttpPost]
-    public async Task<CommandResult> CreateSocialEvent(CreateSocialEventCommand command)
+    public async Task<CommandResult> CreateSocialEvent([FromBody] CreateSocialEventCommand command)
     {
         return await _bus.InvokeAsync<CommandResult>(command);
     }

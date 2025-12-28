@@ -1,5 +1,4 @@
 import React from "react";
-//import {  Outlet, useLocation } from "@tanstack/react-router";
 import { AppShell } from '@mantine/core';
 import { Outlet } from "@tanstack/react-router";
 import Footer from "./Footer";
