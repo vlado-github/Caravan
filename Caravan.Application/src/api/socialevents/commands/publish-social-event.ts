@@ -23,7 +23,7 @@ export function usePublishSocialEvent() {
                     }
                 }).then((res) => {
                     if (res.ok) {
-                      queryClient.invalidateQueries({ queryKey: [SocialEventQueryKeys.paging ] });
+                      queryClient.invalidateQueries({ queryKey: [SocialEventQueryKeys.list ] });
                     }
                 }).catch((error) => {
                     console.error('Error publishing social event:', error);

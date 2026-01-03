@@ -15,22 +15,23 @@ export function useCreateSocialEvent() {
     return useMutation({
         mutationFn: async (request: CreateSocialEventRequest) =>
             {
-                return fetch(`${import.meta.env.VITE_CARAVAN_API_URL}/socialevent`, {
-                    method: 'POST',
-                    body: JSON.stringify(request),
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${auth.user?.access_token}`
-                    }
-                }).then((res) => {
-                    if (res.ok) {
-                        queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.drafts });
-                    }
-                    return res.json() as unknown as number;
-                }).catch((error) => {
-                    console.error('Error creating social event:', error);
-                    throw error; 
-                });
+              console.log('Creating draft social event with request:', JSON.stringify(request));
+              return fetch(`${import.meta.env.VITE_CARAVAN_API_URL}/socialevent`, {
+                  method: 'POST',
+                  body: JSON.stringify(request),
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${auth.user?.access_token}`
+                  }
+              }).then((res) => {
+                  if (res.ok) {
+                      queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.drafts });
+                  }
+                  return res.json() as unknown as number;
+              }).catch((error) => {
+                  console.error('Error creating draft social event:', error);
+                  throw error; 
+              });
             }
     });
 }

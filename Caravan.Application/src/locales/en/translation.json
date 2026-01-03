@@ -7,5 +7,12 @@
   "End time": "End time",
   "date-format": "MMMM D,  YYYY",
   "time-format": "h:mm a",
-  "At the time": "at"
+  "At the time": "at",
+  "Attend": "Attend",
+  "Create": "Create",
+  "Join": "Join",
+  "Groups": "Groups",
+  "Drafts": "Drafts",
+  "Attending": "Attending",
+  "No items to display": "No items to display"
 }

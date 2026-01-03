@@ -34,7 +34,7 @@ public class GetSocialEventsListTests : IClassFixture<IntegrationTestFixture>
         //Act
         var response = await _host.Scenario(config =>
         {
-            config.Get.Url($"/socialevent/list/{pageNumber}/{pageSize}");
+            config.Get.Url($"/socialevent/list?pageNumber={pageNumber}&pageSize={pageSize}");
             config.StatusCodeShouldBeOk();
         });
 

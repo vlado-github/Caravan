@@ -19,7 +19,8 @@ public class SocialEventProfile: SingleStreamProjection<SocialEventProfileDetail
             Venue = input.Data.Venue,
             StartTime = input.Data.StartTime,
             EndTime = input.Data.EndTime,
-            TicketCirculationCount = input.Data.TicketCirculationCount
+            TicketCirculationCount = input.Data.TicketCirculationCount,
+            CreatedByUserId = input.Data.CreatedByUserId
         };
     }
     
@@ -42,5 +43,6 @@ public class SocialEventProfileDetails
     public string Venue { get; set; }
     public DateTimeOffset StartTime { get; set; }
     public DateTimeOffset? EndTime { get; set; } = null;
-    public int TicketCirculationCount { get; set; }
+    public int? TicketCirculationCount { get; set; }
+    public Guid CreatedByUserId { get; set; }
 }

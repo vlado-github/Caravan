@@ -4,10 +4,12 @@ import SigninButton from "../components/Actions/SigninButton";
 import SignoutButton from "../components/Actions/SignoutButton";
 import { useAuth } from "react-oidc-context";
 import { useDisclosure } from "@mantine/hooks";
+import { useTranslation } from "react-i18next";
 
 const Header: React.FC = () => {
   const auth = useAuth();
   const [opened, { toggle }] = useDisclosure();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -16,9 +18,9 @@ const Header: React.FC = () => {
         
         {/* Desktop Navigation */}
         <Group visibleFrom="sm">
-          <Anchor href="/groups">Groups</Anchor>
-          {auth.isAuthenticated ? <Anchor href="/drafts">Drafts</Anchor> : null}
-          {auth.isAuthenticated ? <Anchor href="/attending">Attending</Anchor> : null}
+          {auth.isAuthenticated ? <Anchor href="/groups">{t("Groups")}</Anchor> : null}
+          {auth.isAuthenticated ? <Anchor href="/drafts">{t("Drafts")}</Anchor> : null}
+          {auth.isAuthenticated ? <Anchor href="/attending">{t("Attending")}</Anchor> : null}
           <Anchor><LanguageSelector /></Anchor>
           <Anchor>
             {auth.isAuthenticated ? <SignoutButton /> : <SigninButton /> }
@@ -44,9 +46,9 @@ const Header: React.FC = () => {
         title="Menu"
       >
         <Stack gap="md">
-          <Anchor href="/groups">Groups</Anchor>
-          {auth.isAuthenticated ? <Anchor href="/drafts">Drafts</Anchor> : null}
-          {auth.isAuthenticated ? <Anchor href="/attending">Attending</Anchor> : null}
+          <Anchor href="/groups">{t("Groups")}</Anchor>
+          {auth.isAuthenticated ? <Anchor href="/drafts">{t("Drafts")}</Anchor> : null}
+          {auth.isAuthenticated ? <Anchor href="/attending">{t("Attending")}</Anchor> : null}
           <LanguageSelector onClose={toggle} />
 
           <Divider />

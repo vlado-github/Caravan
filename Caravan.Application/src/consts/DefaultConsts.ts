@@ -1,6 +1,6 @@
 export class DefaultConsts {
   public static readonly FirstPageIndex = 1;
-  public static readonly RowsPerPage = 10;
+  public static readonly RowsPerPage = 12;
   public static readonly LanguageStorageKey = 'caravan-lang';
   public static readonly SupportedLanguages = [ 
       { value: 'en', label: 'English', isDefault: true},
@@ -11,4 +11,5 @@ export class DefaultConsts {
 
   public static DefaultLanguage = DefaultConsts.SupportedLanguages.filter(lang => lang.isDefault)[0];
   public static PlaceholderImage = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
+  public static readonly MaxDescriptionLengthInGallery = 150;
 }

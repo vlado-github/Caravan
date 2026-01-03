@@ -1,3 +1,4 @@
+import type { ZodUUID } from "zod";
 import type { SocialEventType } from "../../base/enums/SocialEventType";
 
 export type CreateSocialEventRequest = {
@@ -5,8 +6,8 @@ export type CreateSocialEventRequest = {
 	description: string;
   type: SocialEventType;
   venue: string;
-  socialGroupId: string;
+  socialGroupId: ZodUUID | undefined;
   startTime: Date;
-  endTime: Date | null;
-  ticketCirculationCount: number;
+  endTime: Date | undefined;
+  ticketCirculationCount: number | undefined;
 }

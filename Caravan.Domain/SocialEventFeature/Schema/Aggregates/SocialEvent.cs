@@ -18,7 +18,7 @@ public class SocialEvent : AggregateRootBase
     public GeoLocation? Location { get; private set; } = null;
     public DateTimeOffset StartTime { get; private set; }
     public DateTimeOffset? EndTime { get; private set; } = null;
-    public int TicketCirculationCount { get; private set; }
+    public int? TicketCirculationCount { get; private set; }
     public Guid CreatedById { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset? PublishedAt { get; private set; } = null;

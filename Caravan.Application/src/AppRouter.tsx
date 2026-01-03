@@ -1,5 +1,5 @@
 import {
-  createRootRoute,
+  createRootRouteWithContext,
   createRoute,
   createRouter,
   redirect,
@@ -9,12 +9,13 @@ import Layout from "./layouts/Layout";
 import { socialEventsRoute } from "./pages/SocialEvents/SocialEvents";
 import { DefaultConsts } from "./consts/DefaultConsts";
 import { socialEventDetailsRoute } from "./pages/SocialEventDetails/SocialEventDetails";
+import { draftedSocialEventsRoute } from "./pages/DraftedSocialEvents/DraftedSocialEvents";
 
 export interface RoutingContext {
   auth: AuthContextProps;
 }
 
-export const rootRoute = createRootRoute({
+export const rootRoute = createRootRouteWithContext<RoutingContext>()({
   component: Layout,
 });
 
@@ -30,6 +31,7 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   socialEventsRoute,
   socialEventDetailsRoute,
+  draftedSocialEventsRoute,
 ]);
 
 export const router = createRouter({

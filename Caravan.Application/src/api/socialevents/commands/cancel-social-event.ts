@@ -23,7 +23,7 @@ export function useCancelSocialEvent() {
                     }
                 }).then((res) => {
                     if (res.ok) {
-                        queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.paging });
+                        queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.list });
                     }
                 }).catch((error) => {
                     console.error('Error cancelling social event:', error);
