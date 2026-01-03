@@ -18,7 +18,7 @@ const Header: React.FC = () => {
         
         {/* Desktop Navigation */}
         <Group visibleFrom="sm">
-          <Anchor href="/groups">{t("Groups")}</Anchor>
+          {auth.isAuthenticated ? <Anchor href="/groups">{t("Groups")}</Anchor> : null}
           {auth.isAuthenticated ? <Anchor href="/drafts">{t("Drafts")}</Anchor> : null}
           {auth.isAuthenticated ? <Anchor href="/attending">{t("Attending")}</Anchor> : null}
           <Anchor><LanguageSelector /></Anchor>

@@ -14,6 +14,7 @@ public partial class SocialEventQuery
         var result = await _querySession 
             .Query<SocialEventProfileDetails>()
             .Filter(filter)
+            .OrderBy(x => x.StartTime)
             .ToPagedListAsync(pageNumber, pageSize);
 
         return new PagedResult<SocialEventProfileDetails>

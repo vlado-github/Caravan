@@ -9,6 +9,7 @@ import type { CreateSocialEventRequest } from "../../api/socialevents/requests/C
 import { useCreateSocialEvent } from "../../api/socialevents/commands/create-social-event";
 import { z } from "zod/v4";
 import { getAllSocialEventTypes, SocialEventType } from "../../api/base/enums/SocialEventType";
+import dayjs from "dayjs";
 
 const schema = z.object({
   title: z
@@ -21,7 +22,7 @@ const schema = z.object({
   socialGroupId: z.uuid().nullable().optional(),
   startTime: z.date(),
   endTime: z.date().nullable().optional(),
-  ticketCirculationCount: z.number().gt(0, { message: 'Ticket circulation count must be greater than 0' }).nullable().optional(),
+  ticketCirculationCount: z.number().gte(0, { message: 'Ticket circulation count must be 0 or greater' }).nullable().optional(),
 })
 .superRefine((data, context) => {
   if (data.type === SocialEventType.OnSite && !data.venue) {
@@ -110,21 +111,24 @@ const CreateSocialEventModal = ({
         <DateTimePicker
           label={t("Start Time")}
           required
-          {...form.getInputProps("startTime")} />
+          value={form.values.startTime} 
+          onChange={(val) => form.setFieldValue("startTime", dayjs(val).toDate())} />
         <DateTimePicker
           label={t("End Time")}
-          {...form.getInputProps("endTime")} />
+          onChange={(val) => form.setFieldValue("startTime", dayjs(val).toDate())}
+          required />
         <NumberInput
           label={t("Ticket Circulation Count")}
+          min={0}
           {...form.getInputProps("ticketCirculationCount")} />
-      </Stack>
 
-      <Group>
-        <Button variant="outline" onClick={() => context.closeModal(id)}>
-          {t("Cancel")}
-        </Button>
-        <Button type="submit">{t("Create")}</Button>
-      </Group>
+        <Group justify="space-between">
+          <Button variant="outline" onClick={() => context.closeModal(id)}>
+            {t("Cancel")}
+          </Button>
+          <Button type="submit">{t("Create")}</Button>
+        </Group>
+      </Stack>
     </form>
   );
 };
