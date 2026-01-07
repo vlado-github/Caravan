@@ -28,8 +28,8 @@ export function useCreateSocialEvent() {
                       queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.drafts });
                   }
                   else {
-                      throw new Error(`${res.status} ${res.statusText}`);
-                    }
+                    throw new Error(`${res.status} ${res.statusText}`);
+                  }
                   return res.json() as unknown as number;
               }).catch((error) => {
                   console.error('Error creating draft social event:', error);
