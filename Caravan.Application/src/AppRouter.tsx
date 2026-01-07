@@ -10,6 +10,7 @@ import { socialEventsRoute } from "./pages/SocialEvents/SocialEvents";
 import { DefaultConsts } from "./consts/DefaultConsts";
 import { socialEventDetailsRoute } from "./pages/SocialEventDetails/SocialEventDetails";
 import { draftedSocialEventsRoute } from "./pages/DraftedSocialEvents/DraftedSocialEvents";
+import { groupsRoute } from "./pages/Groups/Groups";
 
 export interface RoutingContext {
   auth: AuthContextProps;
@@ -32,6 +33,7 @@ const routeTree = rootRoute.addChildren([
   socialEventsRoute,
   socialEventDetailsRoute,
   draftedSocialEventsRoute,
+  groupsRoute
 ]);
 
 export const router = createRouter({

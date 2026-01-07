@@ -27,6 +27,9 @@ export function useCreateSocialEvent() {
                   if (res.ok) {
                       queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.drafts });
                   }
+                  else {
+                      throw new Error(`${res.status} ${res.statusText}`);
+                    }
                   return res.json() as unknown as number;
               }).catch((error) => {
                   console.error('Error creating draft social event:', error);

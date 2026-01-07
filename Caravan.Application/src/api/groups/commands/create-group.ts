@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "react-oidc-context";
 import type { CreateGroupRequest } from "../requests/CreateGroupRequest";
-import { GroupQueryKeys } from "../../socialevents/queries/query-keys";
+import { GroupQueryKeys } from "../../groups/queries/query-keys";
+import { useTranslation } from "react-i18next";
 
 /**
  * Custom hook to create a Group using the Caravan API.
@@ -11,6 +12,7 @@ import { GroupQueryKeys } from "../../socialevents/queries/query-keys";
 export function useCreateGroup() {
     const auth = useAuth();
     const queryClient = useQueryClient();
+    const { t } = useTranslation();
 
     return useMutation({
         mutationFn: async (request: CreateGroupRequest) =>
@@ -26,9 +28,12 @@ export function useCreateGroup() {
                     if (res.ok) {
                         queryClient.invalidateQueries({ queryKey: GroupQueryKeys.list });
                     }
+                    else {
+                      throw new Error(`${res.status} ${res.statusText}`);
+                    }
                     return res.json() as unknown as number;
                 }).catch((error) => {
-                    console.error('Error creating group:', error);
+                    console.error(t('Error creating group:'), error);
                     throw error; 
                 });
             }

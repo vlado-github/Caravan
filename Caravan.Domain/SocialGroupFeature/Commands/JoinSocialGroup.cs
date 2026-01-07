@@ -9,22 +9,21 @@ public class JoinSocialGroupCommandValidator : AbstractValidator<JoinSocialGroup
 {
     public JoinSocialGroupCommandValidator()
     {
-        RuleFor(x => x.UserId).NotEmpty();
         RuleFor(x => x.SocialGroupId).NotEmpty();
     }
 }
 
-public record JoinSocialGroupCommand(Guid UserId, Guid SocialGroupId);
+public record JoinSocialGroupCommand(Guid SocialGroupId);
 
 public class JoinSocialGroupCommandHandler
 {
-    public static async Task<CommandResult> Handle(JoinSocialGroupCommand command, IDocumentStore store)
+    public static async Task<CommandResult> Handle(JoinSocialGroupCommand command, IDocumentStore store, IUserContext userContext)
     {
         await using var session = store.LightweightSession();
         
         var membership = session
             .Query<SocialGroupMembership>()
-            .SingleOrDefault(x => x.Id == command.SocialGroupId && x.UserId == command.UserId);
+            .SingleOrDefault(x => x.Id == command.SocialGroupId && x.UserId == userContext.UserId);
         if (membership != null)
         {
             return new CommandResult(membership.Id);
@@ -33,7 +32,7 @@ public class JoinSocialGroupCommandHandler
         membership = new SocialGroupMembership()
         {
             SocialGroupId = command.SocialGroupId,
-            UserId = command.UserId,
+            UserId = userContext.UserId,
             JoinedAt = DateTimeOffset.UtcNow,
             IsAdmin = false
         };

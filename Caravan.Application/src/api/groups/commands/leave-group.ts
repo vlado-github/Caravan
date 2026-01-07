@@ -25,6 +25,9 @@ export function useLeaveGroup() {
                     if (res.ok) {
                       queryClient.invalidateQueries({ queryKey: [GroupQueryKeys.mygroups ] });
                     }
+                    else {
+                      throw new Error(`${res.status} ${res.statusText}`);
+                    }
                 }).catch((error) => {
                     console.error('Error leaving group:', error);
                     throw error; 

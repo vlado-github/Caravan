@@ -1,5 +1,5 @@
 export const GroupQueryKeys = {
-  details: ['socialgroup'],   
-  list: ['socialgroups'],
-  mygroups: ['mysocialgroups'],
+  details: ['group'],   
+  list: ['groups'],
+  mygroups: ['mygroups'],
 }

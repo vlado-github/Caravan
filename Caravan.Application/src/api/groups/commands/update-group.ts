@@ -25,6 +25,9 @@ export function useUpdateGroup() {
                     if (res.ok) {
                       queryClient.invalidateQueries({ queryKey: [GroupQueryKeys.list ] });
                     }
+                    else {
+                      throw new Error(`${res.status} ${res.statusText}`);
+                    }
                 }).catch((error) => {
                     console.error('Error updating group:', error);
                     throw error; 

@@ -1,12 +1,15 @@
+import CreateGroupModal from "./CreateGroupModal";
 import CreateSocialEventModal from "./CreateSocialEventModal";
 
 class AppModals {
   public static modalKeys = {
     createSocialEvent: 'createSocialEvent',
+    createGroup: 'createGroup',
   };
 
   public static modals = [
     { title: this.modalKeys.createSocialEvent, modal: CreateSocialEventModal },
+    { title: this.modalKeys.createGroup, modal: CreateGroupModal },
   ];
 
   public static getModals() {
