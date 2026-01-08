@@ -1,4 +1,4 @@
-import type { GalleryViewModel } from "./GalleryViewModel";
+import type { PagedViewModel } from "../Paging/PagedViewModel";
 import type { SocialEventResponse } from "../../api/socialevents/responses/SocialEventResponse";
 import { Grid } from "@mantine/core";
 import GalleryTile from "./GalleryTile";
@@ -8,7 +8,7 @@ import type { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 
 interface GalleryLayoutProps {
-  viewModel: GalleryViewModel<SocialEventResponse>;
+  viewModel: PagedViewModel<SocialEventResponse>;
   actions?: ReactElement;
   maxItemDescriptionLength: number;
 }

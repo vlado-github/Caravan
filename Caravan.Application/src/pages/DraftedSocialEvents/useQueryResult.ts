@@ -1,26 +1,32 @@
-import { useSearch } from "@tanstack/react-router";
 import type { PagedQueryRequest } from "../../api/groups/requests/PagedQueryRequest";
-import { DefaultConsts } from "../../consts/DefaultConsts";
 import { useDraftedSocialEventsPagedQuery } from "../../api/socialevents/queries/get-drafted-social-events-list";
 import type { SocialEventResponse } from "../../api/socialevents/responses/SocialEventResponse";
-import { draftedSocialEventsRoute } from "./DraftedSocialEvents";
-import type { GalleryViewModel } from "../../components/Gallery/GalleryViewModel";
+import type { PagedViewModel } from "../../components/Paging/PagedViewModel";
+import { DefaultConsts } from "../../consts/DefaultConsts";
+import type { DataTableSearch } from "../../components/DataTable/DataTableSearch";
 
-export function useQueryResult(): GalleryViewModel<SocialEventResponse> {
-    const search = useSearch({from: draftedSocialEventsRoute.id});
+export function useQueryResult(search: DataTableSearch): PagedViewModel<SocialEventResponse> {
+  const request = {
+    pageNumber: search?.start ?? DefaultConsts.FirstPageIndex,
+    pageSize: search?.size ?? 10
+  } as PagedQueryRequest;
 
-    const request = {
-      pageNumber: search?.start ?? DefaultConsts.FirstPageIndex,
-      pageSize: search?.size ?? DefaultConsts.RowsPerPage
-    } as PagedQueryRequest;
+  const { data, isLoading } = useDraftedSocialEventsPagedQuery(request);
 
-    const { data, isLoading } = useDraftedSocialEventsPagedQuery(request);
-
-    const viewModel: GalleryViewModel<SocialEventResponse> = {
-      items: data?.items ?? [],
-      totalItemCount: data?.totalItemCount ?? 0,
-      pageCount: data?.pageCount ?? 0,
-      isLoading: isLoading
-    };
-    return viewModel;
+  const viewModel: PagedViewModel<SocialEventResponse> = {
+    items: data?.items ?? [],
+    totalItemCount: data?.totalItemCount ?? 0,
+    pageCount: data?.pageCount ?? 0,
+    isLoading: isLoading,
+    count: data?.count ?? 0,
+    pageNumber: request.pageNumber ?? 0,
+    pageSize: data?.pageSize ?? 0,
+    hasPreviousPage: data?.hasPreviousPage ?? false,
+    hasNextPage: data?.hasNextPage ?? false,
+    isFirstPage: data?.isFirstPage ?? false,
+    isLastPage: data?.isLastPage ?? false,
+    firstItemOnPage: data?.firstItemOnPage ?? 0,
+    lastItemOnPage: data?.lastItemOnPage ?? 0,
+  };
+  return viewModel;
 }

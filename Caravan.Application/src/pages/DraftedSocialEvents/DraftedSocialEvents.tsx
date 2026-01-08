@@ -1,20 +1,39 @@
 import React from 'react';
-import { createRoute } from '@tanstack/react-router';
+import { createRoute, useSearch } from '@tanstack/react-router';
 import { rootRoute, type RoutingContext } from '../../AppRouter';
 import { DefaultConsts } from '../../consts/DefaultConsts';
-import type { PageSearch } from '../../components/Gallery/PageSearch';
+import type { PageSearch } from '../../components/Paging/PageSearch';
 import { useQueryResult } from './useQueryResult';
-import GalleryLayout from '../../components/Gallery/GalleryLayout';
 import { Button } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import AppModals from '../../components/Modals/AppModals';
 import { useTranslation } from 'react-i18next';
 import type { CreateSocialEventRequest } from '../../api/socialevents/requests/CreateSocialEventRequest';
 import i18n from '../../i18n';
+import DataTable from '../../components/DataTable/DataTable';
+import type { SocialEventResponse } from '../../api/socialevents/responses/SocialEventResponse';
+import { createColumnHelper, type ColumnDef } from '@tanstack/react-table';
+
+const rowsPerPage = 10;
+
+const columnHelper = createColumnHelper<SocialEventResponse>()
+const columns = [
+  columnHelper.accessor('id', {
+    header: i18n.t('ID'),
+  }),
+  columnHelper.accessor('title', {
+    header: i18n.t('Title'),
+  }),
+  columnHelper.accessor('startTime', {
+    header: i18n.t('Start Time'),
+    cell: info => new Date(info.getValue()).toLocaleString(i18n.language),
+  }),
+] as ColumnDef<SocialEventResponse, unknown>[];
 
 const DraftedSocialEvents: React.FC = () => {
   const {t} = useTranslation();
-  const result = useQueryResult();
+  const searchParams = useSearch({from: draftedSocialEventsRoute.id});
+  const result = useQueryResult(searchParams);
 
   const actions = (
         <Button onClick={() => {
@@ -31,7 +50,7 @@ const DraftedSocialEvents: React.FC = () => {
     );
 
   return (
-    <GalleryLayout viewModel={result} actions={actions} maxItemDescriptionLength={DefaultConsts.MaxDescriptionLengthInGallery} />
+    <DataTable model={result} actions={actions} search={searchParams} columns={columns} />
   );
 }
 
@@ -50,12 +69,12 @@ export const draftedSocialEventsRoute = createRoute({
         {
             return {
               start: DefaultConsts.FirstPageIndex,
-              size: DefaultConsts.RowsPerPage,
+              size: rowsPerPage,
             };
         }
         return {
           start: Number(search?.start ?? DefaultConsts.FirstPageIndex),
-          size: Number(search?.size ?? DefaultConsts.RowsPerPage),
+          size: Number(search?.size ?? rowsPerPage),
         };
     },
 });

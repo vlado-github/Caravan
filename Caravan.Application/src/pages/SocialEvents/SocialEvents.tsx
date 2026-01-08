@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoute } from '@tanstack/react-router';
 import { rootRoute } from '../../AppRouter';
 import { DefaultConsts } from '../../consts/DefaultConsts';
-import type { PageSearch } from '../../components/Gallery/PageSearch';
+import type { PageSearch } from '../../components/Paging/PageSearch';
 import { useQueryResult } from './useQueryResult';
 import GalleryLayout from '../../components/Gallery/GalleryLayout';
 
