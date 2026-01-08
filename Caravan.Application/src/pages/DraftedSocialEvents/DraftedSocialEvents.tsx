@@ -13,6 +13,7 @@ import i18n from '../../i18n';
 import DataTable from '../../components/DataTable/DataTable';
 import type { SocialEventResponse } from '../../api/socialevents/responses/SocialEventResponse';
 import { createColumnHelper, type ColumnDef } from '@tanstack/react-table';
+import { getAllSocialEventStatus } from '../../api/base/enums/SocialEventStatus';
 
 const rowsPerPage = 10;
 
@@ -27,6 +28,10 @@ const columns = [
   columnHelper.accessor('startTime', {
     header: i18n.t('Start Time'),
     cell: info => new Date(info.getValue()).toLocaleString(i18n.language),
+  }),
+  columnHelper.accessor('status', {
+    header: i18n.t('Status'),
+    cell: info => i18n.t(getAllSocialEventStatus()[info.getValue()].label),
   }),
 ] as ColumnDef<SocialEventResponse, unknown>[];
 

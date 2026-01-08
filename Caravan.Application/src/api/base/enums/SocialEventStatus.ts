@@ -6,3 +6,13 @@ export const SocialEventStatus = {
 } as const;
 
 export type SocialEventStatus = typeof SocialEventStatus[keyof typeof SocialEventStatus];
+
+export function getAllSocialEventStatus(): {
+  value: string;
+  label: string;
+}[] {
+  return Object.entries(SocialEventStatus).map(([key, value]) => ({
+    value: value.toString(),
+    label: key
+  }));
+}
