@@ -42,20 +42,24 @@ const GalleryLayout: React.FC<GalleryLayoutProps> = ({viewModel, actions, maxIte
         {actions}
       </div>
       {viewModel.items.length === 0 && (<p>{t("No items to display")}</p>)}
-      <ScrollArea style={{ height: '100vh' }} onScrollPositionChange={handleScroll} viewportRef={scrollRef}>
-        <Grid>
-          {viewModel.items.map(item => (
-            <Grid.Col key={item.id} span={{ base : 12, sm: 6, md: 4, lg: 3 }}>
-              <GalleryTile 
-                imageSrc={item.imageUrl == '' ? DefaultConsts.PlaceholderImage : item.imageUrl} 
-                title={item.title} 
-                onClick={() => onClickAction(item.id)}
-                description={item.description}
-                startTime={item.startTime}
-                maxDescriptionLength={maxItemDescriptionLength} />
-            </Grid.Col>
-          ))}
-        </Grid>
+      <ScrollArea  
+        h="90vh"
+        scrollbars="y"
+        onScrollPositionChange={handleScroll} 
+        viewportRef={scrollRef}>
+          <Grid>
+            {viewModel.items.map(item => (
+              <Grid.Col key={item.id} span={{ base : 12, sm: 6, md: 4, lg: 3 }}>
+                <GalleryTile 
+                  imageSrc={item.imageUrl == '' ? DefaultConsts.PlaceholderImage : item.imageUrl} 
+                  title={item.title} 
+                  onClick={() => onClickAction(item.id)}
+                  description={item.description}
+                  startTime={item.startTime}
+                  maxDescriptionLength={maxItemDescriptionLength} />
+              </Grid.Col>
+            ))}
+          </Grid>
       </ScrollArea>
     </>
   );
