@@ -4,7 +4,7 @@ import { rootRoute, type RoutingContext } from '../../AppRouter';
 import { DefaultConsts } from '../../consts/DefaultConsts';
 import type { PageSearch } from '../../components/Paging/PageSearch';
 import { useQueryResult } from './useQueryResult';
-import { Button } from '@mantine/core';
+import { Button, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import AppModals from '../../components/Modals/AppModals';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,9 @@ import DataTable from '../../components/DataTable/DataTable';
 import type { SocialEventResponse } from '../../api/socialevents/responses/SocialEventResponse';
 import { createColumnHelper, type ColumnDef } from '@tanstack/react-table';
 import { getAllSocialEventStatus } from '../../api/base/enums/SocialEventStatus';
+import { usePublishSocialEvent } from '../../api/socialevents/commands/publish-social-event';
+import type { PublishSocialEventRequest } from '../../api/socialevents/requests/PublishSocialEventRequest';
+import { notifications } from "@mantine/notifications";
 
 const rowsPerPage = 10;
 
@@ -33,12 +36,14 @@ const columns = [
     header: i18n.t('Status'),
     cell: info => i18n.t(getAllSocialEventStatus()[info.getValue()].label),
   }),
+  
 ] as ColumnDef<SocialEventResponse, unknown>[];
 
 const DraftedSocialEvents: React.FC = () => {
   const {t} = useTranslation();
   const searchParams = useSearch({from: draftedSocialEventsRoute.id});
   const result = useQueryResult(searchParams);
+  const { mutate } = usePublishSocialEvent();
 
   const actions = (
         <Button onClick={() => {
@@ -53,6 +58,66 @@ const DraftedSocialEvents: React.FC = () => {
             {t('Create')}
         </Button>
     );
+
+  columns.push(
+    columnHelper.display({
+      id: 'actions',
+      header: i18n.t('Actions'),
+      cell: ({ row }) => { 
+        return (
+          <div>
+            <Button size="xs" onClick={() => {
+              console.log(`Edit event with ID: ${row.original.id}`);
+            }}>{i18n.t('Edit')}</Button>
+           <Button
+              size="xs"
+              onClick={() => {
+                modals.openConfirmModal({
+                  id: AppModals.modalKeys.publishSocialEvent,
+                  title: t('Publish Social Event'),
+                  centered: true,
+                  children: (
+                    <Text>
+                      {t('Are you sure you want to publish')}{" "}
+                      <strong>{row.original.title}</strong> {t('event')}?
+                    </Text>
+                  ),
+                  labels: { confirm: t('Publish'), cancel: t('Cancel') },
+                  onCancel: () => {
+                    modals.close(AppModals.modalKeys.publishSocialEvent); 
+                  },
+                  onConfirm: () => {
+                      mutate({
+                        socialEventId: row.original.id,
+                      } as PublishSocialEventRequest,{
+                      onSuccess: () => {
+                        modals.close(AppModals.modalKeys.publishSocialEvent); 
+                        notifications.show({
+                          title: t('Success'),
+                          color: 'green',
+                          autoClose: 3000,
+                          message: t('Event published successfully'),
+                        });    
+                      },
+                      onError: (error: Error) => {
+                        notifications.show({
+                          title: t('Error'),
+                          color: 'red',
+                          message: `${t('Failed to publish event')}: ${error.message}`,
+                        });
+                      },
+                    });
+                  },
+                });
+              }}
+            >
+              {t('Publish')}
+            </Button>
+          </div>
+        );
+      },
+    }),
+  )
 
   return (
     <DataTable model={result} actions={actions} search={searchParams} columns={columns} />

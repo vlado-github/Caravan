@@ -5,6 +5,7 @@ class AppModals {
   public static modalKeys = {
     createSocialEvent: 'createSocialEvent',
     createGroup: 'createGroup',
+    publishSocialEvent: 'publishSocialEvent',
   };
 
   public static modals = [

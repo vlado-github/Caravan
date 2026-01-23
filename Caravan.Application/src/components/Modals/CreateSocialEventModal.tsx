@@ -115,8 +115,7 @@ const CreateSocialEventModal = ({
           onChange={(val) => form.setFieldValue("startTime", dayjs(val).toDate())} />
         <DateTimePicker
           label={t("End Time")}
-          onChange={(val) => form.setFieldValue("startTime", dayjs(val).toDate())}
-          required />
+          onChange={(val) => form.setFieldValue("startTime", dayjs(val).toDate())} />
         <NumberInput
           label={t("Ticket Circulation Count")}
           min={0}
