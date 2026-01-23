@@ -73,7 +73,8 @@ public class SocialEventController : ControllerBase
     {
         return await _query.List(new SocialEventQueryFilter()
         {
-            Status = EventStatus.Published
+            Status = EventStatus.Published,
+            OmitPastEvents = true,
         }, pageNumber, pageSize);
     }
     

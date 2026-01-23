@@ -11,10 +11,16 @@ public partial class SocialEventQuery
         int pageNumber = 1, 
         int pageSize = 10)
     {
-        var result = await _querySession 
+        var query = _querySession
             .Query<SocialEventProfileDetails>()
-            .Filter(filter)
-            .OrderBy(x => x.StartTime)
+            .Filter(filter);
+        if (filter.OmitPastEvents)
+        {
+            query = query.Where(x => x.StartTime >= DateTimeOffset.UtcNow);
+        }
+        
+        var result = await query
+            .OrderByDescending(x => x.StartTime)
             .ToPagedListAsync(pageNumber, pageSize);
 
         return new PagedResult<SocialEventProfileDetails>

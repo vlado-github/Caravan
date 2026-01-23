@@ -6,11 +6,12 @@ interface GalleryTileProps {
   imageSrc: string;
   title: string;
   description: string;
+  startTime: Date;
   maxDescriptionLength: number;
   onClick: () => void;
 }
 
-const GalleryTile : React.FC<GalleryTileProps> = ({ onClick, imageSrc, title, description, maxDescriptionLength }) => {
+const GalleryTile : React.FC<GalleryTileProps> = ({ onClick, imageSrc, title, description, startTime, maxDescriptionLength }) => {
   const moreDetails = description.length > maxDescriptionLength ? '...' : '';
   
   return (
@@ -23,6 +24,7 @@ const GalleryTile : React.FC<GalleryTileProps> = ({ onClick, imageSrc, title, de
       />
       <div className={styles.galleryTileContent}>
           <h3 className={styles.galleryTileTitle}>{title}</h3>   
+          <p className={styles.galleryTileStartTime}>{new Date(startTime).toLocaleString()}</p>
           <p className={styles.galleryTileDescription}>{`${description.substring(0, maxDescriptionLength)}${moreDetails}`}</p>
       </div>
     </Card >

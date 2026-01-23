@@ -24,7 +24,7 @@ export const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
   beforeLoad: async () => {
-    throw redirect({ to: "/events", search: {start: DefaultConsts.FirstPageIndex, size: DefaultConsts.RowsPerPage} });
+    throw redirect({ to: "/events" });
   }
 });
 

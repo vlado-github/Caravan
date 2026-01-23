@@ -11,5 +11,5 @@ export class DefaultConsts {
 
   public static DefaultLanguage = DefaultConsts.SupportedLanguages.filter(lang => lang.isDefault)[0];
   public static PlaceholderImage = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
-  public static readonly MaxDescriptionLengthInGallery = 150;
+  public static readonly MaxDescriptionLengthInGallery = 80;
 }

@@ -14,7 +14,8 @@ public class SocialEventQueryFilter
     public Guid? CreatedByUserId { get; set; } = null;
     public EventType? Type { get; set; } = null;
     public EventStatus? Status { get; set; } = null;
-    
+    public bool OmitPastEvents { get; set; } = false;
+
 }
 
 internal static class SocialEventQueryFilterHelper
