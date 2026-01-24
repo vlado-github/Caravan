@@ -1,7 +1,7 @@
 # Renew SSL Cert
 
 ```bash
-openssl req -trustout -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.key -out cert.cert
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 3650 -nodes -subj "/CN=caravan-app.local"
 ```
 
 NOTE: For Common Name (CN) enter 'caravan-app.local'
