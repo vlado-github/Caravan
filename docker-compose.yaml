@@ -39,11 +39,11 @@ services:
     image: postgres
     container_name: ${DB_CONTAINER_NAME}
     environment:
-      POSTGRES_DB: caravan
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres:/data/postgres
+      - ./.initdb:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
     networks:
