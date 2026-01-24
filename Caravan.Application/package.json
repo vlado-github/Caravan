@@ -19,6 +19,7 @@
     "@mantine/modals": "^8.3.10",
     "@mantine/notifications": "^8.3.10",
     "@tanstack/react-query": "^5.90.12",
+    "@tanstack/react-router": "^1.157.3",
     "@tanstack/react-table": "^8.21.3",
     "dayjs": "^1.11.19",
     "embla-carousel": "^8.6.0",
@@ -28,6 +29,7 @@
     "react": "19.0",
     "react-dom": "19.0",
     "react-i18next": "^16.5.0",
+    "react-oidc-context": "^3.3.0",
     "sass": "^1.97.0",
     "zod": "^4.2.1"
   },
