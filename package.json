@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "@tanstack/react-router": "^1.141.2",
-    "react-oidc-context": "^3.3.0"
-  },
-  "devDependencies": {
-    "@tanstack/router-plugin": "^1.141.2"
-  }
-}

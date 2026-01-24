@@ -54,7 +54,7 @@ Setup _.env.local_ in _Caravan.Application_ directory:
 VITE_KEYCLOAK_AUTH_TYPE=code
 VITE_KEYCLOAK_REALM_URL=http://keycloak.local:8888/realms/caravan
 VITE_KEYCLOAK_CLIENT_ID=caravan-client
-VITE_KEYCLOAK_CLIENT_SECRET=Emct2TiPnei3t27zdOpueIpq4HyaaBPM
+VITE_KEYCLOAK_CLIENT_SECRET=<place_keycloak_client_secret_here>
 VITE_CARAVAN_API_URL=http://localhost:5012 #http://localhost:5259 #http://caravan-api.local:5002
 VITE_APP_VERSION=0.1.0
 ```
