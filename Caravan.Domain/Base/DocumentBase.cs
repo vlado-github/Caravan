@@ -2,5 +2,5 @@
 
 public class DocumentBase
 {
-    public Guid Id { get; private set; }
+    public Guid Id { get; set; }
 }

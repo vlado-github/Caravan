@@ -12,6 +12,7 @@ using Caravan.Domain.SocialEventFeature.Schema.Indexes;
 using Caravan.Domain.SocialEventFeature.Schema.Projections;
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
+using Marten.Schema.Identity;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Wolverine.Marten;
@@ -79,6 +80,13 @@ builder.Services.AddMarten(opts =>
     });
     opts.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
     opts.Events.StreamIdentity = StreamIdentity.AsGuid;
+    opts.Policies.ForAllDocuments(m =>
+    {
+        if (m.IdType == typeof(Guid))
+        {
+            m.IdStrategy = new GuidIdGeneration();
+        }
+    });
     opts.Projections.AddSocialEventProjections();
     // Indexes
     opts.AddSocialEventIndexes();

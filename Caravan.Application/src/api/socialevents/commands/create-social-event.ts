@@ -15,7 +15,6 @@ export function useCreateSocialEvent() {
     return useMutation({
         mutationFn: async (request: CreateSocialEventRequest) =>
             {
-              console.log('Creating draft social event with request:', JSON.stringify(request));
               return fetch(`${import.meta.env.VITE_CARAVAN_API_URL}/socialevent`, {
                   method: 'POST',
                   body: JSON.stringify(request),
@@ -26,6 +25,9 @@ export function useCreateSocialEvent() {
               }).then((res) => {
                   if (res.ok) {
                       queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.drafts });
+                  }
+                  else {
+                    throw new Error(`${res.status} ${res.statusText}`);
                   }
                   return res.json() as unknown as number;
               }).catch((error) => {

@@ -10,16 +10,15 @@ public class UpdateSocialGroupCommandValidator : AbstractValidator<UpdateSocialG
 {
     public UpdateSocialGroupCommandValidator()
     {
-        RuleFor(x => x.ModifiedByUserId).NotEmpty();
         RuleFor(x => x.SocialGroupName).NotNull().NotEmpty();
     }
 }
 
-public record UpdateSocialGroupCommand(Guid ModifiedByUserId, Guid SocialGroupId, string SocialGroupName);
+public record UpdateSocialGroupCommand(Guid SocialGroupId, string SocialGroupName);
 
 public class UpdateSocialGroupCommandHandler
 {
-    public static async Task<CommandResult> Handle(UpdateSocialGroupCommand command, IDocumentStore store)
+    public static async Task<CommandResult> Handle(UpdateSocialGroupCommand command, IDocumentStore store, IUserContext userContext)
     {
         await using var session = store.LightweightSession();
         
@@ -32,7 +31,7 @@ public class UpdateSocialGroupCommandHandler
         }
 
         socialGroup.Name = command.SocialGroupName;
-        socialGroup.ModifiedById = command.ModifiedByUserId;
+        socialGroup.ModifiedById = userContext.UserId;
         socialGroup.ModifiedAt = DateTimeOffset.UtcNow;
         
         session.Store(socialGroup);

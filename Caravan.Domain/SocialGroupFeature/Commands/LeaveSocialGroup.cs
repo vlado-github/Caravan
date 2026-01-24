@@ -10,22 +10,21 @@ public class LeaveSocialGroupCommandValidator : AbstractValidator<LeaveSocialGro
 {
     public LeaveSocialGroupCommandValidator()
     {
-        RuleFor(x => x.UserId).NotEmpty();
         RuleFor(x => x.SocialGroupId).NotEmpty();
     }
 }
 
-public record LeaveSocialGroupCommand(Guid UserId, Guid SocialGroupId);
+public record LeaveSocialGroupCommand(Guid SocialGroupId);
 
 public class LeaveSocialGroupCommandHandler
 {
-    public static async Task Handle(LeaveSocialGroupCommand command, IDocumentStore store)
+    public static async Task Handle(LeaveSocialGroupCommand command, IDocumentStore store, IUserContext userContext)
     {
         await using var session = store.LightweightSession();
         
         var membership = session
             .Query<SocialGroupMembership>()
-            .SingleOrDefault(x => x.Id == command.SocialGroupId && x.UserId == command.UserId);
+            .SingleOrDefault(x => x.Id == command.SocialGroupId && x.UserId == userContext.UserId);
         if (membership == null)
         {
             return;

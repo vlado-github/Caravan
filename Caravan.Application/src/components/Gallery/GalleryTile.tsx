@@ -1,18 +1,22 @@
+import { useTranslation } from 'react-i18next';
 import { DefaultConsts } from '../../consts/DefaultConsts';
 import styles from './Gallery.module.scss'
 import { Card, Image } from '@mantine/core';
+import dayjs from 'dayjs';
 
 interface GalleryTileProps {
   imageSrc: string;
   title: string;
   description: string;
+  startTime: Date;
   maxDescriptionLength: number;
   onClick: () => void;
 }
 
-const GalleryTile : React.FC<GalleryTileProps> = ({ onClick, imageSrc, title, description, maxDescriptionLength }) => {
+const GalleryTile : React.FC<GalleryTileProps> = ({ onClick, imageSrc, title, description, startTime, maxDescriptionLength }) => {
   const moreDetails = description.length > maxDescriptionLength ? '...' : '';
-  
+  const {t} = useTranslation();
+
   return (
     <Card className={styles.galleryTile} onClick={onClick}>  
       <Image
@@ -23,6 +27,7 @@ const GalleryTile : React.FC<GalleryTileProps> = ({ onClick, imageSrc, title, de
       />
       <div className={styles.galleryTileContent}>
           <h3 className={styles.galleryTileTitle}>{title}</h3>   
+          <p className={styles.galleryTileStartTime}>{dayjs(startTime).format(t("date-format"))} {t("At the time")} {dayjs(startTime).format(t("time-format"))}</p>
           <p className={styles.galleryTileDescription}>{`${description.substring(0, maxDescriptionLength)}${moreDetails}`}</p>
       </div>
     </Card >

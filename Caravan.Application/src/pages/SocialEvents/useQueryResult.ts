@@ -1,26 +1,46 @@
-import { useSearch } from "@tanstack/react-router";
-import type { PagedQueryRequest } from "../../api/groups/requests/PagedQueryRequest";
 import { DefaultConsts } from "../../consts/DefaultConsts";
-import { useSocialEventsPagedQuery } from "../../api/socialevents/queries/get-social-events-list";
+import { useSocialEventsInfiniteScrollQuery } from "../../api/socialevents/queries/get-social-events-list";
 import type { SocialEventResponse } from "../../api/socialevents/responses/SocialEventResponse";
-import { socialEventsRoute } from "./SocialEvents";
-import type { GalleryViewModel } from "../../components/Gallery/GalleryViewModel";
+import type { InfiniteScrollQueryRequest } from "../../api/base/requests/InfiniteScrollQueryRequest";
+import type { InfiniteScrollViewModel } from "../../components/Paging/InfiniteScrollViewModel";
 
-export function useQueryResult(): GalleryViewModel<SocialEventResponse> {
-    const search = useSearch({from: socialEventsRoute.id});
+export function useQueryResult(): InfiniteScrollViewModel<SocialEventResponse> {
+  const request = {
+    pageNumber: DefaultConsts.FirstPageIndex,
+    pageSize: DefaultConsts.RowsPerPage
+  } as InfiniteScrollQueryRequest;
 
-    const request = {
-      pageNumber: search?.start ?? DefaultConsts.FirstPageIndex,
-      pageSize: search?.size ?? DefaultConsts.RowsPerPage
-    } as PagedQueryRequest;
+  const { 
+    data, 
+    fetchNextPage, 
+    hasNextPage, 
+    isFetching,
+    isLoading,
+    error: queryError
+  } = useSocialEventsInfiniteScrollQuery(request);
 
-    const { data, isLoading } = useSocialEventsPagedQuery(request);
+  let records: SocialEventResponse[] = [];
 
-    const viewModel: GalleryViewModel<SocialEventResponse> = {
-      items: data?.items ?? [],
-      totalItemCount: data?.totalItemCount ?? 0,
-      pageCount: data?.pageCount ?? 0,
-      isLoading: isLoading
-    };
-    return viewModel;
+  if (data?.pages) {
+    const items = data.pages.flatMap(page => page.items ?? []);
+    records = items.map(record => 
+      {
+        return  {
+          id: record.id,
+          title: record.title,
+          startTime: record.startTime,
+          description: record.description
+        } as SocialEventResponse;
+    });
+  }
+
+  const viewModel: InfiniteScrollViewModel<SocialEventResponse> = {
+    items: records,
+    onBottomReached: () => { fetchNextPage(); },
+    error: queryError ? queryError.message : undefined,
+    hasNextPage: hasNextPage,
+    isFetching: isFetching,
+    isLoading: isLoading,
+  };
+  return viewModel;
 }

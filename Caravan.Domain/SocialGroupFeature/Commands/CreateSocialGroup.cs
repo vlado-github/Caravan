@@ -9,30 +9,29 @@ public class CreateSocialGroupCommandValidator : AbstractValidator<CreateSocialG
 {
     public CreateSocialGroupCommandValidator()
     {
-        RuleFor(x => x.CreatedByUserId).NotEmpty();
         RuleFor(x => x.SocialGroupName).NotNull().NotEmpty();
     }
 }
 
-public record CreateSocialGroupCommand(Guid CreatedByUserId, string SocialGroupName);
+public record CreateSocialGroupCommand(string SocialGroupName);
 
 public class CreateSocialGroupCommandHandler
 {
-    public static async Task<CommandResult> Handle(CreateSocialGroupCommand command, IDocumentStore store)
+    public static async Task<CommandResult> Handle(CreateSocialGroupCommand command, IDocumentStore store, IUserContext  userContext)
     {
         await using var session = store.LightweightSession();
 
         var socialGroup = new SocialGroup()
         {
             Name = command.SocialGroupName,
-            CreatedById = command.CreatedByUserId
+            CreatedById = userContext.UserId,
         };
         session.Store(socialGroup);
         
         var socialGroupMembership = new SocialGroupMembership()
         {
             SocialGroupId = socialGroup.Id,
-            UserId = command.CreatedByUserId,
+            UserId = userContext.UserId,
             JoinedAt = DateTimeOffset.UtcNow,
             IsAdmin = true
         };

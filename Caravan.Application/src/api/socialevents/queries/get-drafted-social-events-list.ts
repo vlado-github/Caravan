@@ -34,7 +34,6 @@ function getDraftedSocialEventsListPage(accessToken: string, fetchURL: string): 
 export function useDraftedSocialEventsPagedQuery(request: PagedQueryRequest): UseQueryResult<DataTableQueryResponse<SocialEventResponse>, Error> {
   const auth = useAuth();
   const fetchURL = useDraftedSocialEventsListFetchUrl(request);
-
   return useQuery<DataTableQueryResponse<SocialEventResponse>>({
       staleTime: 1000 * 30, // 30 seconds
       placeholderData: keepPreviousData,

@@ -14,9 +14,9 @@ import dayjs from "dayjs";
 const schema = z.object({
   title: z
     .string()
-    .min(2, { message: 'Name should have at least 2 letters' }),
+    .min(2, { message: 'Title should have at least 2 letters' }),
   description: z.string()
-    .min(50, { message: 'Name should have at least 50 letters' }),
+    .min(50, { message: 'Description should have at least 50 letters' }),
   type: z.enum(SocialEventType),
   venue: z.string().optional(),
   socialGroupId: z.uuid().nullable().optional(),
@@ -115,8 +115,7 @@ const CreateSocialEventModal = ({
           onChange={(val) => form.setFieldValue("startTime", dayjs(val).toDate())} />
         <DateTimePicker
           label={t("End Time")}
-          onChange={(val) => form.setFieldValue("startTime", dayjs(val).toDate())}
-          required />
+          onChange={(val) => form.setFieldValue("endTime", dayjs(val).toDate())} />
         <NumberInput
           label={t("Ticket Circulation Count")}
           min={0}

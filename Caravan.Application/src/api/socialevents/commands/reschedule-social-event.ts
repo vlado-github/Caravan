@@ -7,7 +7,7 @@ import type { RescheduleSocialEventRequest } from "../requests/RescheduleSocialE
  * Custom hook to reschedule a Social Event using the Caravan API.
  * @param request The request payload for rescheduling a social event.
  */
-export function usePublishSocialEvent() {
+export function useRescheduleSocialEvent() {
     const auth = useAuth();
     const queryClient = useQueryClient();
 
@@ -23,7 +23,11 @@ export function usePublishSocialEvent() {
                     }
                 }).then((res) => {
                     if (res.ok) {
-                        queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.list });
+                      queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.drafts });
+                      queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.list });
+                    }
+                    else {
+                      throw new Error(`${res.status} ${res.statusText}`);
                     }
                 }).catch((error) => {
                     console.error('Error rescheduling social event:', error);

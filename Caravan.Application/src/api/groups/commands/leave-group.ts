@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "react-oidc-context";
-import { GroupQueryKeys } from "../../socialevents/queries/query-keys";
 import type { LeaveGroupRequest } from "../requests/LeaveGroupRequest";
+import { GroupQueryKeys } from "../queries/query-keys";
 
 /**
  * Custom hook to leave a Group using the Caravan API.
@@ -24,6 +24,9 @@ export function useLeaveGroup() {
                 }).then((res) => {
                     if (res.ok) {
                       queryClient.invalidateQueries({ queryKey: [GroupQueryKeys.mygroups ] });
+                    }
+                    else {
+                      throw new Error(`${res.status} ${res.statusText}`);
                     }
                 }).catch((error) => {
                     console.error('Error leaving group:', error);
