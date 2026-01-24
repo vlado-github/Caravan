@@ -1,5 +1,5 @@
 import { Button } from "@mantine/core";
-import { flexRender, getCoreRowModel, getPaginationRowModel, useReactTable, type ColumnDef, type DisplayColumnDef } from "@tanstack/react-table";
+import { flexRender, getCoreRowModel, getPaginationRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { type ReactElement } from "react";
 import type { PagedViewModel } from "../Paging/PagedViewModel";
 import type { DataTableSearch } from "./DataTableSearch";

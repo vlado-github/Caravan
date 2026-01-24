@@ -3,7 +3,7 @@ import { Grid, ScrollArea } from "@mantine/core";
 import GalleryTile from "./GalleryTile";
 import { DefaultConsts } from "../../consts/DefaultConsts";
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, type ReactElement } from "react";
+import { useRef, type ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import type { InfiniteScrollViewModel } from "../Paging/InfiniteScrollViewModel";
 

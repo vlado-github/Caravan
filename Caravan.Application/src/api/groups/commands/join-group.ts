@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "react-oidc-context";
-import { GroupQueryKeys } from "../../socialevents/queries/query-keys";
 import type { JoinGroupRequest } from "../requests/JoinGroupRequest";
+import { GroupQueryKeys } from "../queries/query-keys";
 
 /**
  * Custom hook to join user to a Group using the Caravan API.

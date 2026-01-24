@@ -7,7 +7,6 @@ import {
 import type { AuthContextProps } from "react-oidc-context";
 import Layout from "./layouts/Layout";
 import { socialEventsRoute } from "./pages/SocialEvents/SocialEvents";
-import { DefaultConsts } from "./consts/DefaultConsts";
 import { socialEventDetailsRoute } from "./pages/SocialEventDetails/SocialEventDetails";
 import { draftedSocialEventsRoute } from "./pages/DraftedSocialEvents/DraftedSocialEvents";
 import { groupsRoute } from "./pages/Groups/Groups";
