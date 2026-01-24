@@ -42,7 +42,6 @@ const RescheduleSocialEventModal = ({
   const { mutate } = useRescheduleSocialEvent();
 
   const handleSubmit = (values: RescheduleSocialEventRequest) => {
-    console.log("RescheduleSocialEventModal submit:", values);
     mutate(values, {
       onSuccess: () => {
         context.closeModal(id);

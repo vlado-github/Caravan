@@ -38,6 +38,20 @@ public class SocialEventProfile: SingleStreamProjection<SocialEventProfileDetail
         current.EndTime = input.Data.EndTime;
         return current;
     }
+    
+    public SocialEventProfileDetails Apply(SocialEventProfileDetails current, IEvent<SocialEventCancelled> input)
+    {
+        current.Id = input.Id;
+        current.Status = EventStatus.Cancelled;
+        return current;
+    }
+    
+    public SocialEventProfileDetails Apply(SocialEventProfileDetails current, IEvent<SocialEventArchived> input)
+    {
+        current.Id = input.Id;
+        current.Status = EventStatus.Archived;
+        return current;
+    }
 }
 
 public class SocialEventProfileDetails

@@ -23,7 +23,8 @@ export function useCancelSocialEvent() {
                     }
                 }).then((res) => {
                     if (res.ok) {
-                        queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.list });
+                      queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.drafts });
+                      queryClient.invalidateQueries({ queryKey: SocialEventQueryKeys.list });
                     }
                     else {
                       throw new Error(`${res.status} ${res.statusText}`);
