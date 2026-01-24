@@ -30,6 +30,14 @@ public class SocialEventProfile: SingleStreamProjection<SocialEventProfileDetail
         current.Status = EventStatus.Published;
         return current;
     }
+    
+    public SocialEventProfileDetails Apply(SocialEventProfileDetails current, IEvent<SocialEventRescheduled> input)
+    {
+        current.Id = input.Id;
+        current.StartTime = input.Data.StartTime;
+        current.EndTime = input.Data.EndTime;
+        return current;
+    }
 }
 
 public class SocialEventProfileDetails

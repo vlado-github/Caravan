@@ -86,7 +86,6 @@ public class SocialEventController : ControllerBase
     {
         return await _query.List(new SocialEventQueryFilter()
         {
-            Status = EventStatus.Draft,
             CreatedByUserId = _userContext.UserId
         }, pageNumber, pageSize);
     }
