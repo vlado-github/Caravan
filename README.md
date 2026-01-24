@@ -28,7 +28,7 @@ Edit Hosts file in elevated mode and add following:
 127.0.0.1 keycloak.local caravan-api.local caravan-app.local
 ```
 
-Via browser access the application: [http://caravan-app.local](http://caravan-app.local)
+Via browser access the application: [https://caravan-app.local](http://caravan-app.local)
 
 
 ## Local Setup
