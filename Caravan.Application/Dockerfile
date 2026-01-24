@@ -7,6 +7,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
+COPY . .
+
 # 2️⃣ Copy all TypeScript config files (needed for project references)
 COPY tsconfig*.json ./
 COPY tsconfig.app.json tsconfig.node.json ./

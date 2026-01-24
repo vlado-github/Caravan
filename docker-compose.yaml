@@ -4,21 +4,26 @@ services:
     container_name: caravan-nginx-proxy
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./.nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./.nginx/certs/cert.pem:/etc/nginx/certs/cert.pem
+      - ./.nginx/certs/key.pem:/etc/nginx/certs/key.pem
       - app-dist:/usr/share/nginx/html:ro
+    depends_on:
+      - app
     networks:
       - caravan-network
 
-  # app:
-  #   image: caravan.app
-  #   container_name: caravan-app
-  #   build:
-  #     context: Caravan.Application
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - app-dist:/app/dist
-  #   command: ["true"] 
+  app:
+    image: caravan.app
+    container_name: caravan-app
+    build:
+      context: Caravan.Application
+      dockerfile: Dockerfile
+    volumes:
+      - app-dist:/app/dist
+    command: ["true"] 
 
   api:
     image: caravan.api
@@ -39,11 +44,11 @@ services:
     image: postgres
     container_name: ${DB_CONTAINER_NAME}
     environment:
-      POSTGRES_DB: caravan
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres:/data/postgres
+      - ./.initdb:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
     networks:
