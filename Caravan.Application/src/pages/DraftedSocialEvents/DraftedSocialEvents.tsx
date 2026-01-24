@@ -39,6 +39,13 @@ const getColumns = ({onPublish, onReschedule} : RowActions) =>
     header: i18n.t('Start Time'),
     cell: info => new Date(info.getValue()).toLocaleString(i18n.language),
   }),
+  columnHelper.accessor('endTime', {
+    header: i18n.t('End Time'),
+    cell: info => {
+      const value = info.getValue();
+      return value ? new Date(value).toLocaleString(i18n.language) : '-';
+    },
+  }),
   columnHelper.accessor('status', {
     header: i18n.t('Status'),
     cell: info => i18n.t(getAllSocialEventStatus()[info.getValue()].label),

@@ -72,6 +72,7 @@ const RescheduleSocialEventModal = ({
           onChange={(val) => form.setFieldValue("startTime", dayjs(val).toDate())} />
         <DateTimePicker
           label={t("End Time")}
+          value={form.values.endTime} 
           onChange={(val) => form.setFieldValue("endTime", dayjs(val).toDate())} />
 
         <Group justify="space-between">
