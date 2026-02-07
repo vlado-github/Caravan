@@ -2,7 +2,6 @@ using System.Net;
 using Alba;
 using Caravan.Domain.Base;
 using Caravan.Tests.Base;
-using Caravan.Domain.Shared.Enums;
 using Caravan.Domain.SocialEventFeature.Commands;
 using Caravan.Domain.SocialEventFeature.Events;
 using Caravan.Domain.SocialEventFeature.Schema.Aggregates;
@@ -10,36 +9,31 @@ using Caravan.Domain.SocialEventFeature.Schema.Projections;
 
 namespace Caravan.Tests.IntegrationTests;
 
-public class RescheduleSocialEventCommandTests : IClassFixture<IntegrationTestFixture>
+public class RescheduleSocialEventCommandTests : IntegrationTestBase
 {
-    private readonly IAlbaHost _host;
-    private readonly DataSeeder _seeder;
-    
-    public RescheduleSocialEventCommandTests(IntegrationTestFixture fixture)
+    public RescheduleSocialEventCommandTests(IntegrationTestFixture fixture) : base(fixture)
     {
-        _host = fixture.Host;
-        _seeder = fixture.Seeder;
     }
-    
+
     [Fact]
     public async Task Reschedule_SocialEvent_Should_Succeed()
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        await _seeder.Seed<SocialEvent>(streamId);
-        var aggregate = await _seeder.GetStream<SocialEvent>(streamId);
-        var command = new RescheduleSocialEventCommand(streamId, 
-            DateTimeOffset.UtcNow.AddDays(10), 
+        await Seeder.SeedStream<SocialEvent>(streamId);
+        var aggregate = await Seeder.GetStream<SocialEvent>(streamId);
+        var command = new RescheduleSocialEventCommand(streamId,
+            DateTimeOffset.UtcNow.AddDays(10),
             DateTimeOffset.UtcNow.AddDays(11));
-        
+
         //Act
-        await _host.Scenario(config =>
+        await Host.Scenario(config =>
         {
             config.Put.Json(command).ToUrl("/socialevent/reschedule");
             config.StatusCodeShouldBeOk();
         });
 
-        var getResponse = await _host.Scenario(config =>
+        var getResponse = await Host.Scenario(config =>
         {
             config.Get.Url($"/socialevent/{streamId}");
             config.StatusCodeShouldBeOk();
@@ -63,13 +57,13 @@ public class RescheduleSocialEventCommandTests : IClassFixture<IntegrationTestFi
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        await _seeder.Seed<SocialEvent>(streamId);
-        var command = new RescheduleSocialEventCommand(streamId, 
-            DateTimeOffset.UtcNow.AddDays(11), 
+        await Seeder.SeedStream<SocialEvent>(streamId);
+        var command = new RescheduleSocialEventCommand(streamId,
+            DateTimeOffset.UtcNow.AddDays(11),
             DateTimeOffset.UtcNow);
-        
+
         //Act & Assert
-        await _host.Scenario(config =>
+        await Host.Scenario(config =>
         {
             config.Put.Json(command).ToUrl("/socialevent/reschedule");
             config.StatusCodeShouldBe(HttpStatusCode.BadRequest);
@@ -81,19 +75,19 @@ public class RescheduleSocialEventCommandTests : IClassFixture<IntegrationTestFi
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        await _seeder.Seed<SocialEvent>(streamId, new List<EventBase>()
+        await Seeder.SeedStream<SocialEvent>(streamId, new List<EventBase>()
         {
             new SocialEventCancelled()
             {
                 Id = streamId
             }
         });
-        var command = new RescheduleSocialEventCommand(streamId, 
-            DateTimeOffset.UtcNow.AddDays(10), 
+        var command = new RescheduleSocialEventCommand(streamId,
+            DateTimeOffset.UtcNow.AddDays(10),
             DateTimeOffset.UtcNow.AddDays(11));
-        
+
         //Act & Assert
-        await _host.Scenario(config =>
+        await Host.Scenario(config =>
         {
             config.Put.Json(command).ToUrl("/socialevent/reschedule");
             config.StatusCodeShouldBe(HttpStatusCode.BadRequest);
@@ -105,19 +99,19 @@ public class RescheduleSocialEventCommandTests : IClassFixture<IntegrationTestFi
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        await _seeder.Seed<SocialEvent>(streamId, new List<EventBase>()
+        await Seeder.SeedStream<SocialEvent>(streamId, new List<EventBase>()
         {
             new SocialEventArchived()
             {
                 Id = streamId
             }
         });
-        var command = new RescheduleSocialEventCommand(streamId, 
-            DateTimeOffset.UtcNow.AddDays(10), 
+        var command = new RescheduleSocialEventCommand(streamId,
+            DateTimeOffset.UtcNow.AddDays(10),
             DateTimeOffset.UtcNow.AddDays(11));
-        
+
         //Act & Assert
-        await _host.Scenario(config =>
+        await Host.Scenario(config =>
         {
             config.Put.Json(command).ToUrl("/socialevent/reschedule");
             config.StatusCodeShouldBe(HttpStatusCode.BadRequest);

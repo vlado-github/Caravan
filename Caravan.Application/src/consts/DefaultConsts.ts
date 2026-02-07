@@ -1,5 +1,6 @@
 export class DefaultConsts {
   public static readonly FirstPageIndex = 1;
+  public static readonly RowsPerTable = 10;
   public static readonly RowsPerPage = 12;
   public static readonly LanguageStorageKey = 'caravan-lang';
   public static readonly SupportedLanguages = [ 

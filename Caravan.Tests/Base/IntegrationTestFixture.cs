@@ -20,15 +20,15 @@ public class IntegrationTestFixture : IAsyncLifetime
         MockedUserContext = Substitute.For<IUserContext>();
         var userId = Guid.NewGuid();
         var userFullname = new Faker().Person.FullName;
-        
+
         MockedUserContext.UserId.Returns(userId);
         MockedUserContext.UserFullname.Returns(userFullname);
-        
+
         _securityStub = new AuthenticationStub()
             .With("sub", userId.ToString())
             .WithName(userFullname);
     }
-    
+
     public async Task InitializeAsync()
     {
         Host = await AlbaHost.For<global::Program>(x =>
@@ -48,3 +48,4 @@ public class IntegrationTestFixture : IAsyncLifetime
         await Host.DisposeAsync();
     }
 }
+
