@@ -5,27 +5,22 @@ using Caravan.Domain.SocialEventFeature.Schema.Projections;
 
 namespace Caravan.Tests.IntegrationTests;
 
-public class GetSocialEventByIdTests : IClassFixture<IntegrationTestFixture>
+public class GetSocialEventByIdTests : IntegrationTestBase
 {
-    private readonly IAlbaHost _host;
-    private readonly DataSeeder _seeder;
-    
-    public GetSocialEventByIdTests(IntegrationTestFixture fixture)
+    public GetSocialEventByIdTests(IntegrationTestFixture fixture) : base(fixture)
     {
-        _host = fixture.Host;
-        _seeder = fixture.Seeder;
     }
-    
+
     [Fact]
     public async Task Get_SocialEvent_ById_Should_Succeed()
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        await _seeder.Seed<SocialEvent>(streamId);
-        var aggregate = await _seeder.GetStream<SocialEvent>(streamId);
-        
+        await Seeder.SeedStream<SocialEvent>(streamId);
+        var aggregate = await Seeder.GetStream<SocialEvent>(streamId);
+
         //Act
-        var response = await _host.Scenario(config =>
+        var response = await Host.Scenario(config =>
         {
             config.Get.Url($"/socialevent/{streamId}");
             config.StatusCodeShouldBeOk();

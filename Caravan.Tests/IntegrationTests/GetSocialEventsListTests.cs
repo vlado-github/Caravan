@@ -8,17 +8,12 @@ using Caravan.Domain.SocialEventFeature.Schema.Projections;
 
 namespace Caravan.Tests.IntegrationTests;
 
-public class GetSocialEventsListTests : IClassFixture<IntegrationTestFixture>
+public class GetSocialEventsListTests : IntegrationTestBase
 {
-    private readonly IAlbaHost _host;
-    private readonly DataSeeder _seeder;
-    
-    public GetSocialEventsListTests(IntegrationTestFixture fixture)
+    public GetSocialEventsListTests(IntegrationTestFixture fixture) : base(fixture)
     {
-        _host = fixture.Host;
-        _seeder = fixture.Seeder;
     }
-    
+
     [Fact]
     public async Task Get_EventsList_Should_Succeed()
     {
@@ -30,9 +25,9 @@ public class GetSocialEventsListTests : IClassFixture<IntegrationTestFixture>
 
         await Seed(numberOfDraftEvents, EventStatus.Draft);
         await Seed(numberOfPublishedEvents, EventStatus.Published);
-        
+
         //Act
-        var response = await _host.Scenario(config =>
+        var response = await Host.Scenario(config =>
         {
             config.Get.Url($"/socialevent/list?pageNumber={pageNumber}&pageSize={pageSize}");
             config.StatusCodeShouldBeOk();
@@ -60,9 +55,9 @@ public class GetSocialEventsListTests : IClassFixture<IntegrationTestFixture>
                 for(var i = 0; i < number; i++)
                 {
                     var streamId = Guid.NewGuid();
-                    await _seeder.Seed<SocialEvent>(streamId);
+                    await Seeder.SeedStream<SocialEvent>(streamId);
                 }
-                
+
                 break;
             }
             case EventStatus.Published:
@@ -70,7 +65,7 @@ public class GetSocialEventsListTests : IClassFixture<IntegrationTestFixture>
                 for(var i = 0; i < number; i++)
                 {
                     var streamId = Guid.NewGuid();
-                    await _seeder.Seed<SocialEvent>(streamId, new List<EventBase>()
+                    await Seeder.SeedStream<SocialEvent>(streamId, new List<EventBase>()
                     {
                         new SocialEventPublished()
                         {

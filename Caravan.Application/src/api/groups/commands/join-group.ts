@@ -23,7 +23,7 @@ export function useJoinGroup() {
                     }
                 }).then((res) => {
                     if (res.ok) {
-                      queryClient.invalidateQueries({ queryKey: [GroupQueryKeys.mygroups ] });
+                      queryClient.invalidateQueries({ queryKey: GroupQueryKeys.list });
                     }
                     else {
                       throw new Error(`${res.status} ${res.statusText}`);

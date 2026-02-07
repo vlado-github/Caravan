@@ -1,6 +1,5 @@
 using System.Net;
 using Alba;
-using Bogus;
 using Caravan.Tests.Base;
 using Caravan.Domain.Base;
 using Caravan.Domain.Shared.Enums;
@@ -10,46 +9,41 @@ using Caravan.Domain.SocialEventFeature.Schema.Projections;
 
 namespace Caravan.Tests.IntegrationTests;
 
-public class CreateSocialEventCommandTests : IClassFixture<IntegrationTestFixture>
+public class CreateSocialEventCommandTests : IntegrationTestBase
 {
-    private readonly IAlbaHost _host;
-    private readonly Faker _faker;
-    
-    public CreateSocialEventCommandTests(IntegrationTestFixture fixture)
+    public CreateSocialEventCommandTests(IntegrationTestFixture fixture) : base(fixture)
     {
-        _host = fixture.Host;
-        _faker = new Faker();
     }
-    
+
     [Fact]
     public async Task Create_SocialEvent_Should_Succeed()
     {
         //Arrange
         var command = new CreateSocialEventCommand(
-            Title: _faker.Lorem.Sentence(3),
-            Description: _faker.Lorem.Paragraph(),
+            Title: Seeder.Faker.Lorem.Sentence(3),
+            Description: Seeder.Faker.Lorem.Paragraph(),
             Type: EventType.OnSite,
             SocialGroupId: null,
             StartTime: DateTimeOffset.UtcNow.AddDays(10),
             EndTime: DateTimeOffset.UtcNow.AddDays(10).AddHours(2),
-            Venue: _faker.Address.FullAddress(),
+            Venue: Seeder.Faker.Address.FullAddress(),
             TicketCirculationCount: 100
         );
-        
+
         //Act
-        var createResponse = await _host.Scenario(config =>
+        var createResponse = await Host.Scenario(config =>
         {
             config.Post.Json(command).ToUrl("/socialevent");
             config.StatusCodeShouldBeOk();
         });
-        
+
         //Assert
         var createResult = await createResponse.ReadAsJsonAsync<CommandResult>();
         Assert.NotNull(createResult);
         Assert.NotEqual(Guid.Empty, createResult.Id);
-        
+
         //Act
-        var getResponse = await _host.Scenario(config =>
+        var getResponse = await Host.Scenario(config =>
         {
             config.Get.Url($"/socialevent/{createResult.Id}");
             config.StatusCodeShouldBeOk();
@@ -73,18 +67,18 @@ public class CreateSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
         //Arrange
         //Arrange
         var command = new CreateSocialEventCommand(
-            Title: _faker.Lorem.Sentence(3),
-            Description: _faker.Lorem.Paragraph(),
+            Title: Seeder.Faker.Lorem.Sentence(3),
+            Description: Seeder.Faker.Lorem.Paragraph(),
             Type: EventType.OnSite,
             SocialGroupId: null,
             StartTime: DateTimeOffset.UtcNow.AddDays(10),
             EndTime: DateTimeOffset.UtcNow,
-            Venue: _faker.Address.FullAddress(),
+            Venue: Seeder.Faker.Address.FullAddress(),
             TicketCirculationCount: 100
         );
-        
+
         //Act & Assert
-        await _host.Scenario(config =>
+        await Host.Scenario(config =>
         {
             config.Post.Json(command).ToUrl("/socialevent");
             config.StatusCodeShouldBe(HttpStatusCode.BadRequest);

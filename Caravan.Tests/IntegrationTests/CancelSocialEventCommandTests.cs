@@ -1,9 +1,7 @@
 using System.Net;
 using Alba;
-using Bogus;
-using Caravan.Tests.Base;
-using Marten;
 using Caravan.Domain.Base;
+using Caravan.Tests.Base;
 using Caravan.Domain.Shared.Enums;
 using Caravan.Domain.SocialEventFeature.Commands;
 using Caravan.Domain.SocialEventFeature.Events;
@@ -12,40 +10,35 @@ using Caravan.Domain.SocialEventFeature.Schema.Projections;
 
 namespace Caravan.Tests.IntegrationTests;
 
-public class CancelSocialEventCommandTests : IClassFixture<IntegrationTestFixture>
+public class CancelSocialEventCommandTests : IntegrationTestBase
 {
-    private readonly IAlbaHost _host;
-    private readonly DataSeeder _seeder;
-    
-    public CancelSocialEventCommandTests(IntegrationTestFixture fixture)
+    public CancelSocialEventCommandTests(IntegrationTestFixture fixture) : base(fixture)
     {
-        _host = fixture.Host;
-        _seeder = fixture.Seeder;
     }
-    
+
     [Fact]
     public async Task Cancel_PublishedSocialEvent_Should_Succeed()
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        await _seeder.Seed<SocialEvent>(streamId, new List<EventBase>()
+        await Seeder.SeedStream<SocialEvent>(streamId, new List<EventBase>()
         {
             new SocialEventPublished()
             {
                 Id = streamId
             }
         });
-        var aggregate = await _seeder.GetStream<SocialEvent>(streamId);
+        var aggregate = await Seeder.GetStream<SocialEvent>(streamId);
         var command = new CancelSocialEventCommand(streamId);
-        
+
         //Act
-        await _host.Scenario(config =>
+        await Host.Scenario(config =>
         {
             config.Put.Json(command).ToUrl("/socialevent/cancel");
             config.StatusCodeShouldBeOk();
         });
 
-        var getResponse = await _host.Scenario(config =>
+        var getResponse = await Host.Scenario(config =>
         {
             config.Get.Url($"/socialevent/{streamId}");
             config.StatusCodeShouldBeOk();
@@ -69,7 +62,7 @@ public class CancelSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        await _seeder.Seed<SocialEvent>(streamId, new List<EventBase>()
+        await Seeder.SeedStream<SocialEvent>(streamId, new List<EventBase>()
         {
             new SocialEventArchived()
             {
@@ -77,9 +70,9 @@ public class CancelSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
             }
         });
         var command = new CancelSocialEventCommand(streamId);
-        
+
         //Act & Assert
-        await _host.Scenario(config =>
+        await Host.Scenario(config =>
         {
             config.Put.Json(command).ToUrl("/socialevent/cancel");
             config.StatusCodeShouldBe(HttpStatusCode.BadRequest);

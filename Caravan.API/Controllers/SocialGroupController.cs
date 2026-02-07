@@ -1,6 +1,7 @@
 ﻿using Caravan.Domain.Base;
 using Caravan.Domain.SocialGroupFeature.Commands;
 using Caravan.Domain.SocialGroupFeature.Queries;
+using Caravan.Domain.SocialGroupFeature.Schema.Documents;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
@@ -14,13 +15,21 @@ public class SocialGroupController : ControllerBase
 {
     private readonly IMessageBus _bus;
     private readonly ISocialGroupQuery  _query;
-    
+
     public SocialGroupController(IMessageBus bus, ISocialGroupQuery query)
     {
         _bus = bus;
         _query = query;
     }
-    
+
+    [HttpGet("list")]
+    public async Task<PagedResult<SocialGroup>> GetSocialGroups(
+        [FromQuery] int pageNumber,
+        [FromQuery] int pageSize)
+    {
+        return await _query.List(pageNumber, pageSize);
+    }
+
     [HttpPost]
     public async Task<CommandResult> CreateSocialGroup(CreateSocialGroupCommand command)
     {

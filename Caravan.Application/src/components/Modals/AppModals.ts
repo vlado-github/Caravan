@@ -1,6 +1,7 @@
 import CreateGroupModal from "./CreateGroupModal";
 import CreateSocialEventModal from "./CreateSocialEventModal";
 import RescheduleSocialEventModal from "./RescheduleSocialEventModal";
+import UpdateGroupModal from "./UpdateGroupModal";
 
 class AppModals {
   public static modalKeys = {
@@ -8,12 +9,14 @@ class AppModals {
     createGroup: 'createGroup',
     publishSocialEvent: 'publishSocialEvent',
     rescheduleSocialEvent: 'rescheduleSocialEvent',
+    updateGroup: 'updateGroup',
   };
 
   public static modals = [
     { title: this.modalKeys.createSocialEvent, modal: CreateSocialEventModal },
     { title: this.modalKeys.createGroup, modal: CreateGroupModal },
     { title: this.modalKeys.rescheduleSocialEvent, modal: RescheduleSocialEventModal },
+    { title: this.modalKeys.updateGroup, modal: UpdateGroupModal },
   ];
 
   public static getModals() {

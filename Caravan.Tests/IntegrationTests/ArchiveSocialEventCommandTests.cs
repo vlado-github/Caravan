@@ -1,9 +1,7 @@
 using System.Net;
 using Alba;
-using Bogus;
-using Caravan.Tests.Base;
-using Marten;
 using Caravan.Domain.Base;
+using Caravan.Tests.Base;
 using Caravan.Domain.Shared.Enums;
 using Caravan.Domain.SocialEventFeature.Commands;
 using Caravan.Domain.SocialEventFeature.Events;
@@ -12,34 +10,29 @@ using Caravan.Domain.SocialEventFeature.Schema.Projections;
 
 namespace Caravan.Tests.IntegrationTests;
 
-public class ArchiveSocialEventCommandTests : IClassFixture<IntegrationTestFixture>
+public class ArchiveSocialEventCommandTests : IntegrationTestBase
 {
-    private readonly IAlbaHost _host;
-    private readonly DataSeeder _seeder;
-    
-    public ArchiveSocialEventCommandTests(IntegrationTestFixture fixture)
+    public ArchiveSocialEventCommandTests(IntegrationTestFixture fixture) : base(fixture)
     {
-        _host = fixture.Host;
-        _seeder = fixture.Seeder;
     }
-    
+
     [Fact]
     public async Task Archive_SocialEvent_Should_Succeed()
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        await _seeder.Seed<SocialEvent>(streamId);
-        var aggregate = await _seeder.GetStream<SocialEvent>(streamId);
+        await Seeder.SeedStream<SocialEvent>(streamId);
+        var aggregate = await Seeder.GetStream<SocialEvent>(streamId);
         var command = new ArchiveSocialEventCommand(streamId);
-        
+
         //Act
-        await _host.Scenario(config =>
+        await Host.Scenario(config =>
         {
             config.Put.Json(command).ToUrl("/socialevent/archive");
             config.StatusCodeShouldBeOk();
         });
 
-        var getResponse = await _host.Scenario(config =>
+        var getResponse = await Host.Scenario(config =>
         {
             config.Get.Url($"/socialevent/{streamId}");
             config.StatusCodeShouldBeOk();
@@ -63,7 +56,7 @@ public class ArchiveSocialEventCommandTests : IClassFixture<IntegrationTestFixtu
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        await _seeder.Seed<SocialEvent>(streamId, new List<EventBase>()
+        await Seeder.SeedStream<SocialEvent>(streamId, new List<EventBase>()
         {
             new SocialEventRescheduled()
             {
@@ -73,9 +66,9 @@ public class ArchiveSocialEventCommandTests : IClassFixture<IntegrationTestFixtu
             }
         });
         var command = new ArchiveSocialEventCommand(streamId);
-        
+
         //Act & Assert
-        await _host.Scenario(config =>
+        await Host.Scenario(config =>
         {
             config.Put.Json(command).ToUrl("/socialevent/archive");
             config.StatusCodeShouldBe(HttpStatusCode.BadRequest);
@@ -87,7 +80,7 @@ public class ArchiveSocialEventCommandTests : IClassFixture<IntegrationTestFixtu
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        await _seeder.Seed<SocialEvent>(streamId, new List<EventBase>()
+        await Seeder.SeedStream<SocialEvent>(streamId, new List<EventBase>()
         {
             new SocialEventRescheduled()
             {
@@ -97,9 +90,9 @@ public class ArchiveSocialEventCommandTests : IClassFixture<IntegrationTestFixtu
             }
         });
         var command = new ArchiveSocialEventCommand(streamId);
-        
+
         //Act & Assert
-        await _host.Scenario(config =>
+        await Host.Scenario(config =>
         {
             config.Put.Json(command).ToUrl("/socialevent/archive");
             config.StatusCodeShouldBe(HttpStatusCode.BadRequest);

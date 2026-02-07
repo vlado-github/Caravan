@@ -19,8 +19,6 @@ import type { PublishSocialEventRequest } from '../../api/socialevents/requests/
 import { notifications } from "@mantine/notifications";
 import type { RescheduleSocialEventRequest } from '../../api/socialevents/requests/RescheduleSocialEventRequest';
 
-const rowsPerPage = 10;
-
 type RowActions = {
   onPublish: (row: SocialEventResponse) => void;
   onReschedule: (row: SocialEventResponse) => void;
@@ -173,12 +171,12 @@ export const draftedSocialEventsRoute = createRoute({
         {
             return {
               start: DefaultConsts.FirstPageIndex,
-              size: rowsPerPage,
+              size: DefaultConsts.RowsPerTable,
             };
         }
         return {
           start: Number(search?.start ?? DefaultConsts.FirstPageIndex),
-          size: Number(search?.size ?? rowsPerPage),
+          size: Number(search?.size ?? DefaultConsts.RowsPerTable),
         };
     },
 });
