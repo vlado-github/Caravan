@@ -1,6 +1,7 @@
 using Marten.Pagination;
 using Caravan.Domain.Base;
 using Caravan.Domain.SocialEventFeature.Schema.Projections;
+using Marten.Linq.SoftDeletes;
 
 namespace Caravan.Domain.SocialEventFeature.Queries;
 
@@ -16,7 +17,9 @@ public partial class SocialEventQuery
             .Filter(filter);
         if (filter.OmitPastEvents)
         {
-            query = query.Where(x => x.StartTime >= DateTimeOffset.UtcNow);
+            query = query.Where(x =>
+                (x.StartTime >= DateTimeOffset.UtcNow && x.EndTime == null)
+                || (x.StartTime < DateTimeOffset.UtcNow && x.EndTime >= DateTimeOffset.UtcNow));
         }
         
         var result = await query

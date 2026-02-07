@@ -1,3 +1,4 @@
+import type { ZodUUID } from "zod";
 import type { SocialEventStatus } from "../../base/enums/SocialEventStatus";
 import type { SocialEventType } from "../../base/enums/SocialEventType";
 
@@ -7,6 +8,7 @@ export type SocialEventDetailsResponse = {
   description: string;
   type: SocialEventType;
   status: SocialEventStatus;
+  socialGroupId: ZodUUID;
   isPrivate: boolean;
   venue: string;
   city: string;

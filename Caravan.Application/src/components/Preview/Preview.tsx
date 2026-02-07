@@ -14,6 +14,7 @@ interface PreviewProps{
       description: string;
       type: SocialEventType;
       status: SocialEventStatus;
+      socialGroupId: string;
       isPrivate: boolean;
       venue: string;
       city: string;
@@ -57,6 +58,8 @@ const Preview: React.FC<PreviewProps> = ({ event, actions }) => {
           <p className={styles.socialEventPreviewDate}>
             <DateTimeDisplay label={t("End time")} dateTime={event.endTime}/>
           </p>
+          <p className={styles.socialEventPreviewVenue}>{event.venue}, {event.city}</p>
+          <p className={styles.socialEventPreviewGroup}>{event.socialGroupId}</p>
         </div>
         <div>
           {actions}
