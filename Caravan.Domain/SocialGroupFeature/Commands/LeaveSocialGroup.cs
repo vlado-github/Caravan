@@ -24,10 +24,15 @@ public class LeaveSocialGroupCommandHandler
         
         var membership = session
             .Query<SocialGroupMembership>()
-            .SingleOrDefault(x => x.Id == command.SocialGroupId && x.UserId == userContext.UserId);
+            .SingleOrDefault(x => x.SocialGroupId == command.SocialGroupId && x.UserId == userContext.UserId);
         if (membership == null)
         {
             return;
+        }
+
+        if (membership.IsAdmin)
+        {
+            throw new InvalidOperationException("Can't leave group with admin privileges");
         }
 
         session.Delete(membership);

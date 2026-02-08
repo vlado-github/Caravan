@@ -8,6 +8,6 @@ namespace Caravan.Domain.SocialEventFeature.Queries;
 
 public interface ISocialEventQuery
 {
-    Task<SocialEvent> GetById(Guid streamId);
+    Task<SocialEvent> GetById(Guid streamId, Guid? userId);
     Task<PagedResult<SocialEventProfileDetails>> List(SocialEventQueryFilter filter, int pageNumber = 0, int pageSize = 10);
 }

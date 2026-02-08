@@ -3,9 +3,19 @@ import type { SocialEventType } from '../../api/base/enums/SocialEventType';
 import { DefaultConsts } from '../../consts/DefaultConsts';
 import DateTimeDisplay from '../DateTime/DateTimeDisplay';
 import styles from './Preview.module.scss';
-import { Grid, Image } from '@mantine/core';
+import { Text, Button, Grid, Image, Group } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import type { ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
+import i18n from '../../i18n';
+import AppModals from '../Modals/AppModals';
+import { modals } from '@mantine/modals';
+import type { JoinGroupRequest } from '../../api/groups/requests/JoinGroupRequest';
+import { notifications } from '@mantine/notifications';
+import type { LeaveGroupRequest } from '../../api/groups/requests/LeaveGroupRequest';
+import { useJoinGroup } from '../../api/groups/commands/join-group';
+import { useLeaveGroup } from '../../api/groups/commands/leave-group';
+import { is } from 'zod/v4/locales';
+import GroupPreview from './GroupPreview';
 
 interface PreviewProps{
     event: {
@@ -15,6 +25,8 @@ interface PreviewProps{
       type: SocialEventType;
       status: SocialEventStatus;
       socialGroupId: string;
+      socialGroupName: string;
+      isSocialGroupMember: boolean;
       isPrivate: boolean;
       venue: string;
       city: string;
@@ -59,7 +71,12 @@ const Preview: React.FC<PreviewProps> = ({ event, actions }) => {
             <DateTimeDisplay label={t("End time")} dateTime={event.endTime}/>
           </p>
           <p className={styles.socialEventPreviewVenue}>{event.venue}, {event.city}</p>
-          <p className={styles.socialEventPreviewGroup}>{event.socialGroupId}</p>
+          <div className={styles.socialEventPreviewGroup}>
+            <GroupPreview 
+              socialGroupId={event.socialGroupId}
+              isSocialGroupMember={event.isSocialGroupMember} 
+              socialGroupName={event.socialGroupName} />
+          </div>
         </div>
         <div>
           {actions}

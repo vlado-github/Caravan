@@ -8,6 +8,8 @@ export type PreviewViewModel = {
   type: SocialEventType;
   status: SocialEventStatus;
   socialGroupId: string;
+  socialGroupName: string;
+  isSocialGroupMember: boolean;
   isPrivate: boolean;
   venue: string;
   city: string;

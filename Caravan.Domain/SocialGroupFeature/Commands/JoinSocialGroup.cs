@@ -23,7 +23,7 @@ public class JoinSocialGroupCommandHandler
         
         var membership = session
             .Query<SocialGroupMembership>()
-            .SingleOrDefault(x => x.Id == command.SocialGroupId && x.UserId == userContext.UserId);
+            .SingleOrDefault(x => x.SocialGroupId == command.SocialGroupId && x.UserId == userContext.UserId);
         if (membership != null)
         {
             return new CommandResult(membership.Id);

@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-using Caravan.Domain.Shared.Enums;
-using Caravan.Domain.Shared.Exceptions;
+﻿using Caravan.Domain.Shared.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace Caravan.Domain.Base;
@@ -12,6 +10,21 @@ public class UserContext : IUserContext
     public UserContext(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
+    }
+
+    public bool TryGetUserId(out Guid? userId)
+    {
+        try
+        {
+            userId = UserId;
+        }
+        catch (ArgumentNullException ex)
+        {
+            userId = null;
+            return false;
+        }
+
+        return true;
     }
 
     public Guid UserId 

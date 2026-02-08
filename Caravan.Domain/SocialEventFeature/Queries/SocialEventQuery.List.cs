@@ -18,12 +18,12 @@ public partial class SocialEventQuery
         if (filter.OmitPastEvents)
         {
             query = query.Where(x =>
-                (x.StartTime >= DateTimeOffset.UtcNow && x.EndTime == null)
+                x.StartTime >= DateTimeOffset.UtcNow
                 || (x.StartTime < DateTimeOffset.UtcNow && x.EndTime >= DateTimeOffset.UtcNow));
         }
         
         var result = await query
-            .OrderByDescending(x => x.StartTime)
+            .OrderBy(x => x.StartTime)
             .ToPagedListAsync(pageNumber, pageSize);
 
         return new PagedResult<SocialEventProfileDetails>

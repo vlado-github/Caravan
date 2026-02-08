@@ -10,6 +10,7 @@ using Wolverine;
 
 namespace Caravan.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class SocialEventController : ControllerBase
@@ -25,47 +26,45 @@ public class SocialEventController : ControllerBase
         _userContext = userContext;
     }
     
-    [Authorize]
     [HttpPost]
     public async Task<CommandResult> CreateSocialEvent([FromBody] CreateSocialEventCommand command)
     {
         return await _bus.InvokeAsync<CommandResult>(command);
     }
     
-    [Authorize]
     [HttpPut("publish")]
     public async Task PublishSocialEvent(PublishSocialEventCommand command)
     {
         await _bus.InvokeAsync<CommandResult>(command);
     }
     
-    [Authorize]
     [HttpPut("reschedule")]
     public async Task RescheduleSocialEvent(RescheduleSocialEventCommand command)
     {
         await _bus.InvokeAsync<CommandResult>(command);
     }
     
-    [Authorize]
     [HttpPut("cancel")]
     public async Task CancelSocialEvent(CancelSocialEventCommand command)
     {
         await _bus.InvokeAsync<CommandResult>(command);
     }
     
-    [Authorize]
     [HttpPut("archive")]
     public async Task ArchiveSocialEvent(ArchiveSocialEventCommand command)
     {
         await _bus.InvokeAsync<CommandResult>(command);
     }
     
+    [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async Task<SocialEvent> GetSocialEvent([FromRoute] Guid id)
     {
-        return await _query.GetById(id);
+        _ = _userContext.TryGetUserId(out var userId);
+        return await _query.GetById(id, userId);
     }
     
+    [AllowAnonymous]
     [HttpGet("list")]
     public async Task<PagedResult<SocialEventProfileDetails>> GetSocialEvents(
         [FromQuery] int pageNumber, 
@@ -78,7 +77,6 @@ public class SocialEventController : ControllerBase
         }, pageNumber, pageSize);
     }
     
-    [Authorize]
     [HttpGet("drafts")]
     public async Task<PagedResult<SocialEventProfileDetails>> GetDraftedSocialEvents(
         [FromQuery] int pageNumber, 

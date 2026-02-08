@@ -12,6 +12,8 @@ public class SocialEvent : AggregateRootBase
     public EventType Type { get; private set; }
     public EventStatus Status { get; private set; } = EventStatus.Draft;
     public Guid? SocialGroupId { get; init; } = null;
+    public string? SocialGroupName { get; set; } = null;
+    public bool IsSocialGroupMember { get; set; } = false;
     public bool IsPrivate => !SocialGroupId.HasValue;
     public string Venue { get; private set; }
     public string City { get; private set; }
