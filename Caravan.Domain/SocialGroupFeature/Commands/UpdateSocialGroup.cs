@@ -30,6 +30,11 @@ public class UpdateSocialGroupCommandHandler
             throw new RecordNotFoundException(command.SocialGroupId);
         }
 
+        if (socialGroup.CreatedById != userContext.UserId)
+        {
+            throw new UnauthorizedAccessException("Only group creator can update group");
+        }
+
         socialGroup.Name = command.SocialGroupName;
         socialGroup.ModifiedById = userContext.UserId;
         socialGroup.ModifiedAt = DateTimeOffset.UtcNow;

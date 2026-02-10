@@ -27,6 +27,7 @@ export function useCreateGroup() {
                 }).then((res) => {
                     if (res.ok) {
                         queryClient.invalidateQueries({ queryKey: GroupQueryKeys.list });
+                        queryClient.invalidateQueries({ queryKey: GroupQueryKeys.selection });
                     }
                     else {
                       throw new Error(`${res.status} ${res.statusText}`);

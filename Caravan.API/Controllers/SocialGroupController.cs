@@ -31,6 +31,15 @@ public class SocialGroupController : ControllerBase
     {
         return await _query.List(_userContext.UserId, pageNumber, pageSize);
     }
+    
+    [HttpGet("selection")]
+    public async Task<PagedResult<SocialGroup>> GetSocialGroupsSelection(
+        [FromQuery] int pageNumber, 
+        [FromQuery] int pageSize,
+        [FromQuery] string? searchTerm = null)
+    {
+        return await _query.ListSelection(_userContext.UserId, pageNumber, pageSize, searchTerm);
+    }
 
     [HttpPost]
     public async Task<CommandResult> CreateSocialGroup(CreateSocialGroupCommand command)

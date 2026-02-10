@@ -3,18 +3,9 @@ import type { SocialEventType } from '../../api/base/enums/SocialEventType';
 import { DefaultConsts } from '../../consts/DefaultConsts';
 import DateTimeDisplay from '../DateTime/DateTimeDisplay';
 import styles from './Preview.module.scss';
-import { Text, Button, Grid, Image, Group } from '@mantine/core';
+import { Grid, Image } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { useState, type ReactElement } from 'react';
-import i18n from '../../i18n';
-import AppModals from '../Modals/AppModals';
-import { modals } from '@mantine/modals';
-import type { JoinGroupRequest } from '../../api/groups/requests/JoinGroupRequest';
-import { notifications } from '@mantine/notifications';
-import type { LeaveGroupRequest } from '../../api/groups/requests/LeaveGroupRequest';
-import { useJoinGroup } from '../../api/groups/commands/join-group';
-import { useLeaveGroup } from '../../api/groups/commands/leave-group';
-import { is } from 'zod/v4/locales';
+import { type ReactElement } from 'react';
 import GroupPreview from './GroupPreview';
 
 interface PreviewProps{

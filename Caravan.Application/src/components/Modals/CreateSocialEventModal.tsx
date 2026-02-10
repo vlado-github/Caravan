@@ -10,6 +10,7 @@ import { useCreateSocialEvent } from "../../api/socialevents/commands/create-soc
 import { z } from "zod/v4";
 import { getAllSocialEventTypes, SocialEventType } from "../../api/base/enums/SocialEventType";
 import dayjs from "dayjs";
+import GroupSelector from "../Selectors/GroupSelector";
 
 const schema = z.object({
   title: z
@@ -105,9 +106,14 @@ const CreateSocialEventModal = ({
         <TextInput 
           label={t("Venue")} 
           {...form.getInputProps("venue")} />
-        <TextInput 
+        <GroupSelector 
+          label={t("Group")}
+          placeholder={t("Select group...")} 
+          value={form.values.socialGroupId} 
+          onChange={(val) => form.setFieldValue("socialGroupId", val)} />
+        {/* <TextInput 
           label={t("Group")} 
-          {...form.getInputProps("socialGroupId")} />
+          {...form.getInputProps("socialGroupId")} /> */}
         <DateTimePicker
           label={t("Start Time")}
           required

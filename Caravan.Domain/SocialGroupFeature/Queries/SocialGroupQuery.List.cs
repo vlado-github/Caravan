@@ -38,4 +38,36 @@ public partial class SocialGroupQuery
             LastItemOnPage = result.LastItemOnPage
         };
     }
+    
+    public async Task<PagedResult<SocialGroup>> ListSelection(Guid userId, int pageNumber = 1, int pageSize = 10, string? searchTerm = null)
+    {
+        var query = _querySession
+            .Query<SocialGroup>()
+            .Where(x => x.CreatedById == userId);
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            query = query.Where(x => x.Name.StartsWith(searchTerm));
+        }
+            
+        var result = await query
+            .OrderBy(x => x.Name)
+            .ToPagedListAsync(pageNumber, pageSize);
+        
+
+        return new PagedResult<SocialGroup>
+        {
+            Items = result.ToList(),
+            Count = result.Count,
+            PageNumber = result.PageNumber,
+            PageSize = result.PageSize,
+            PageCount = result.PageCount,
+            TotalItemCount = result.TotalItemCount,
+            HasNextPage = result.HasNextPage,
+            HasPreviousPage = result.HasPreviousPage,
+            IsFirstPage = result.IsFirstPage,
+            IsLastPage = result.IsLastPage,
+            FirstItemOnPage = result.FirstItemOnPage,
+            LastItemOnPage = result.LastItemOnPage
+        };
+    }
 }

@@ -10,7 +10,7 @@ import AppModals from '../../components/Modals/AppModals';
 import { useTranslation } from 'react-i18next';
 import type { CreateSocialEventRequest } from '../../api/socialevents/requests/CreateSocialEventRequest';
 import i18n from '../../i18n';
-import DataTable from '../../components/DataTable/DataTable';
+import DataTable from '../../components/Custom/DataTable/DataTable';
 import type { SocialEventResponse } from '../../api/socialevents/responses/SocialEventResponse';
 import { createColumnHelper, type ColumnDef } from '@tanstack/react-table';
 import { getAllSocialEventStatus, SocialEventStatus } from '../../api/base/enums/SocialEventStatus';
