@@ -43,7 +43,6 @@ export default function useGroupSelectorModel(): SelectorModel {
       onBottomReached: () => { fetchNextPage(); },
       onChange: () => 
         { 
-          console.log("Group selection changed, invalidating query cache...");
           queryClient.invalidateQueries({ queryKey: GroupQueryKeys.selection });
         },
       error: queryError ? queryError.message : undefined,
