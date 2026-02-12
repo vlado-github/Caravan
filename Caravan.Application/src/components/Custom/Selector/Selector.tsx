@@ -17,10 +17,11 @@ interface SelectorProps {
   maxHeight?: number;
   shouldSetInitialValue?: boolean;
   value?: string;
-  onChange?: (value: string) => void;
   disabled?: boolean;
   placeholder?: string;
   label?: string;
+  actions?: React.ReactNode;
+  onChange?: (value: string) => void;
 }
 
 const Selector: React.FC<SelectorProps> = ({
@@ -28,10 +29,11 @@ const Selector: React.FC<SelectorProps> = ({
   maxHeight = 200,
   shouldSetInitialValue = true,
   value,
-  onChange,
   disabled = false,
   placeholder = "Select...",
   label = "",
+  actions,
+  onChange
 }) => {
   const [initialValueIsSet, setInitialValueIsSet] = useState(false);
 
@@ -149,6 +151,9 @@ const Selector: React.FC<SelectorProps> = ({
           ref={containerRef}
           style={{ overflowY: "auto" }}
         >
+          <Combobox.Header>
+            {actions}
+          </Combobox.Header>
           <Combobox.Options>
             {options.length > 0 ? (
               options

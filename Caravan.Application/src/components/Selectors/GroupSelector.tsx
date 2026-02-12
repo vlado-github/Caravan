@@ -2,12 +2,13 @@ import Selector from '../Custom/Selector/Selector';
 import useGroupSelectorModel from './useGroupSelectorModel';
 
 interface GroupSelectorProps {
-    label?: string,
-    placeholder?: string,
-    shouldSetInitialValue?: boolean,
-    value?: string,
-    onChange?: (value: string) => void,
-    disabled?: boolean,
+  label?: string,
+  placeholder?: string,
+  shouldSetInitialValue?: boolean,
+  value?: string,
+  disabled?: boolean,
+  onChange?: (value: string) => void;
+  actions?: React.ReactNode;
 }
 
 const GroupSelector: React.FC<GroupSelectorProps> = ({
@@ -15,8 +16,9 @@ const GroupSelector: React.FC<GroupSelectorProps> = ({
   placeholder,
   shouldSetInitialValue,
   value,
-  onChange,
   disabled,
+  onChange,
+  actions
 }) => {
   const model = useGroupSelectorModel();
 
@@ -28,8 +30,9 @@ const GroupSelector: React.FC<GroupSelectorProps> = ({
       placeholder={placeholder}
       shouldSetInitialValue={shouldSetInitialValue}
       value={value}
-      onChange={onChange ? (val) => onChange(val) : undefined}
-      disabled={disabled} />
+      disabled={disabled}
+      actions={actions} 
+      onChange={onChange}/>
   );
 };
 

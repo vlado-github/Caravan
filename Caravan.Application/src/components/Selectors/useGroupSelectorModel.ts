@@ -3,16 +3,19 @@ import useSelectorParams from "../Custom/Selector/SelectorParams";
 import { useMemo } from "react";
 import type { InfiniteScrollQueryRequest } from "../../api/base/requests/InfiniteScrollQueryRequest";
 import { useSocialGroupsSelectionInfiniteScrollQuery } from "../../api/groups/queries/get-groups-selection-list";
+import { QueryClient } from "@tanstack/react-query";
+import { GroupQueryKeys } from "../../api/groups/queries/query-keys";
 
 export default function useGroupSelectorModel(): SelectorModel {
     const selectorParams = useSelectorParams();
+    const queryClient = new QueryClient();
 
     const request = useMemo(() => ({
         search: selectorParams.debouncedSearch,
         pageNumber: 0, 
-        pageSize: selectorParams.pageSize
+        pageSize: selectorParams.pageSize,
     } as InfiniteScrollQueryRequest),  [selectorParams.debouncedSearch, selectorParams.pageSize]);
-    
+
     const { 
         data,
         fetchNextPage, 
@@ -38,6 +41,11 @@ export default function useGroupSelectorModel(): SelectorModel {
     const model: SelectorModel = {
       records: records,
       onBottomReached: () => { fetchNextPage(); },
+      onChange: () => 
+        { 
+          console.log("Group selection changed, invalidating query cache...");
+          queryClient.invalidateQueries({ queryKey: GroupQueryKeys.selection });
+        },
       error: queryError ? queryError.message : undefined,
       hasNextPage: hasNextPage,
       isFetching: isFetching,

@@ -8,7 +8,7 @@ export interface SelectionItem {
 export default interface SelectorModel {
     records: SelectionItem[],
     onBottomReached: () => void;
-    onChange?: (value: string, label: string) => void;
+    onChange?: () => void;
     error?: string;
     hasNextPage?: boolean;
     isFetching?: boolean;

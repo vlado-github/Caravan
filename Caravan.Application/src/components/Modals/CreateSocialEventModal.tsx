@@ -1,6 +1,6 @@
-import { TextInput, Button, Stack, Group, Select, NumberInput } from "@mantine/core";
+import { TextInput, Button, Stack, Group, Select, NumberInput, useModalsStack, Modal } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
-import type { ContextModalProps } from "@mantine/modals";
+import { type ContextModalProps } from "@mantine/modals";
 import { useForm } from "@mantine/form";
 import { zod4Resolver } from "mantine-form-zod-resolver";
 import { notifications } from "@mantine/notifications";
@@ -11,6 +11,8 @@ import { z } from "zod/v4";
 import { getAllSocialEventTypes, SocialEventType } from "../../api/base/enums/SocialEventType";
 import dayjs from "dayjs";
 import GroupSelector from "../Selectors/GroupSelector";
+import AppModals from "./AppModals";
+import { CreateGroupForm } from "./CreateGroupModal";
 
 const schema = z.object({
   title: z
@@ -62,6 +64,7 @@ const CreateSocialEventModal = ({
   });
 
   const { mutate } = useCreateSocialEvent();
+  const stack = useModalsStack([AppModals.modalKeys.createGroup]);
 
   const handleSubmit = (values: CreateSocialEventRequest) => {
     mutate(values, {
@@ -84,57 +87,66 @@ const CreateSocialEventModal = ({
     });
   };
 
-  return (
-    <form onSubmit={form.onSubmit(handleSubmit)}>
-      <Stack>
-        <TextInput
-          label={t("Title")}
-          required
-          {...form.getInputProps("title")}
-        />
-        <TextInput 
-          label={t("Description")} 
-          required 
-          {...form.getInputProps("description")} />
-        <Select
-          label={t("Type")} 
-          placeholder={t("Pick Event Type")}
-          data={getAllSocialEventTypes()}
-          value={form.values.type.toString()} 
-          onChange={(val) => form.setFieldValue("type", Number(val) as SocialEventType)}
-          required />
-        <TextInput 
-          label={t("Venue")} 
-          {...form.getInputProps("venue")} />
-        <GroupSelector 
-          label={t("Group")}
-          placeholder={t("Select group...")} 
-          value={form.values.socialGroupId} 
-          onChange={(val) => form.setFieldValue("socialGroupId", val)} />
-        {/* <TextInput 
-          label={t("Group")} 
-          {...form.getInputProps("socialGroupId")} /> */}
-        <DateTimePicker
-          label={t("Start Time")}
-          required
-          value={form.values.startTime} 
-          onChange={(val) => form.setFieldValue("startTime", dayjs(val).toDate())} />
-        <DateTimePicker
-          label={t("End Time")}
-          onChange={(val) => form.setFieldValue("endTime", dayjs(val).toDate())} />
-        <NumberInput
-          label={t("Ticket Circulation Count")}
-          min={0}
-          {...form.getInputProps("ticketCirculationCount")} />
+  const groupSelectorActions = (
+    <Button onClick={() => stack.open(AppModals.modalKeys.createGroup)}>
+        {t('Add')}
+    </Button>);
 
-        <Group justify="space-between">
-          <Button variant="outline" onClick={() => context.closeModal(id)}>
-            {t("Cancel")}
-          </Button>
-          <Button type="submit">{t("Create")}</Button>
-        </Group>
-      </Stack>
-    </form>
+  return (
+    <>
+      <Modal {...stack.register(AppModals.modalKeys.createGroup)} title={t('Create Group')} zIndex={300}>
+        <CreateGroupForm onClose={() => stack.close(AppModals.modalKeys.createGroup)} />
+      </Modal>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Stack>
+          <TextInput
+            label={t("Title")}
+            required
+            {...form.getInputProps("title")}
+          />
+          <TextInput 
+            label={t("Description")} 
+            required 
+            {...form.getInputProps("description")} />
+          <Select
+            label={t("Type")} 
+            placeholder={t("Pick Event Type")}
+            data={getAllSocialEventTypes()}
+            value={form.values.type.toString()} 
+            onChange={(val) => form.setFieldValue("type", Number(val) as SocialEventType)}
+            required />
+          <TextInput 
+            label={t("Venue")} 
+            {...form.getInputProps("venue")} />
+          <GroupSelector 
+            label={t("Group")}
+            placeholder={t("Select group...")} 
+            value={form.values.socialGroupId} 
+            shouldSetInitialValue={false}
+            actions={groupSelectorActions}
+            onChange={(val) => form.setFieldValue("socialGroupId", val)} />
+          <DateTimePicker
+            label={t("Start Time")}
+            required
+            value={form.values.startTime} 
+            onChange={(val) => form.setFieldValue("startTime", dayjs(val).toDate())} />
+          <DateTimePicker
+            label={t("End Time")}
+            onChange={(val) => form.setFieldValue("endTime", dayjs(val).toDate())} />
+          <NumberInput
+            label={t("Ticket Circulation Count")}
+            min={0}
+            {...form.getInputProps("ticketCirculationCount")} />
+
+          <Group justify="space-between">
+            <Button variant="outline" onClick={() => context.closeModal(id)}>
+              {t("Cancel")}
+            </Button>
+            <Button type="submit">{t("Create")}</Button>
+          </Group>
+        </Stack>
+      </form>
+    </>
   );
 };
 

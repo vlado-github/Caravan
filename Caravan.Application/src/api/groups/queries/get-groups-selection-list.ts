@@ -14,7 +14,7 @@ function useSocialGroupsSelectionListFetchUrl(request: InfiniteScrollQueryReques
   const url = urls.selection;
   url.searchParams.set('pageNumber', `${request.pageNumber}`);
   url.searchParams.set('pageSize', `${request.pageSize}`);
-  url.searchParams.set('searchTerm', `${request.searchTerm ?? ''}`);
+  url.searchParams.set('searchTerm', `${request.search ?? ''}`);
   return url.href;
 }
 
@@ -22,8 +22,8 @@ function getSocialGroupsSelectionListPage(accessToken: string, fetchURL: string)
   return fetch(fetchURL, {
           method: 'GET',
           headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${accessToken}`
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
           }
         })
       .then((res) => res.json() as unknown as InfiniteScrollQueryResponse<SocialGroupResponse>)
@@ -56,7 +56,7 @@ export function useSocialGroupsSelectionInfiniteScrollQuery(request: InfiniteScr
       const url = urls.selection; // Use the infinite URL for infinite scroll queries
       url.searchParams.set('pageNumber', `${pageParam}`);
       url.searchParams.set('pageSize', `${request.pageSize}`);
-      url.searchParams.set('searchTerm', `${request.searchTerm ?? ''}`);
+      url.searchParams.set('searchTerm', `${request.search ?? ''}`);
       
       return await getSocialGroupsSelectionListPage(auth.user?.access_token, url.href);
     }
