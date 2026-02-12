@@ -5,7 +5,8 @@ import DateTimeDisplay from '../DateTime/DateTimeDisplay';
 import styles from './Preview.module.scss';
 import { Grid, Image } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import type { ReactElement } from 'react';
+import { type ReactElement } from 'react';
+import GroupPreview from './GroupPreview';
 
 interface PreviewProps{
     event: {
@@ -14,6 +15,9 @@ interface PreviewProps{
       description: string;
       type: SocialEventType;
       status: SocialEventStatus;
+      socialGroupId: string;
+      socialGroupName: string;
+      isSocialGroupMember: boolean;
       isPrivate: boolean;
       venue: string;
       city: string;
@@ -57,6 +61,13 @@ const Preview: React.FC<PreviewProps> = ({ event, actions }) => {
           <p className={styles.socialEventPreviewDate}>
             <DateTimeDisplay label={t("End time")} dateTime={event.endTime}/>
           </p>
+          <p className={styles.socialEventPreviewVenue}>{event.venue}, {event.city}</p>
+          <div className={styles.socialEventPreviewGroup}>
+            <GroupPreview 
+              socialGroupId={event.socialGroupId}
+              isSocialGroupMember={event.isSocialGroupMember} 
+              socialGroupName={event.socialGroupName} />
+          </div>
         </div>
         <div>
           {actions}

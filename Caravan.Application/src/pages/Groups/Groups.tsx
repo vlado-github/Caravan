@@ -8,7 +8,7 @@ import type { CreateGroupRequest } from "../../api/groups/requests/CreateGroupRe
 import i18n from "../../i18n";
 import { createColumnHelper, type ColumnDef } from "@tanstack/react-table";
 import type { SocialGroupResponse } from "../../api/groups/responses/SocialGroupResponse";
-import DataTable from "../../components/DataTable/DataTable";
+import DataTable from "../../components/Custom/DataTable/DataTable";
 import { useQueryResult } from "./useQueryResult";
 import type { PageSearch } from "../../components/Paging/PageSearch";
 import { DefaultConsts } from "../../consts/DefaultConsts";

@@ -114,6 +114,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Local"))
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

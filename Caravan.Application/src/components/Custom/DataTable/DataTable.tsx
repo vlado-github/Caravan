@@ -1,9 +1,9 @@
 import { Button } from "@mantine/core";
 import { flexRender, getCoreRowModel, getPaginationRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { type ReactElement } from "react";
-import type { PagedViewModel } from "../Paging/PagedViewModel";
+import type { PagedViewModel } from "../../Paging/PagedViewModel";
 import type { DataTableSearch } from "./DataTableSearch";
-import { DefaultConsts } from "../../consts/DefaultConsts";
+import { DefaultConsts } from "../../../consts/DefaultConsts";
 import { functionalUpdate, useNavigate } from "@tanstack/react-router";
 import styles from './DataTable.module.scss'
 

@@ -1,6 +1,7 @@
 import type { SocialEventDetailsResponse } from "../responses/SocialEventDetailsResponse";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { SocialEventQueryKeys } from "./query-keys";
+import { useAuth } from "react-oidc-context";
 
 const urls = { 
   details: new URL(`${import.meta.env.VITE_CARAVAN_API_URL}/socialevent`),
@@ -11,12 +12,14 @@ function useSocialEventDetailsFetchUrl(socialEventId: string){
   return url;
 }
 
-function getSocialEventDetails(fetchURL: string): Promise<SocialEventDetailsResponse> {
+function getSocialEventDetails(accessToken: string | undefined, fetchURL: string): Promise<SocialEventDetailsResponse> {
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    'Authorization': accessToken ? `Bearer ${accessToken}` : ''
+  };
   return fetch(fetchURL, {
           method: 'GET',
-          headers: {
-              'Content-Type': 'application/json'
-          }
+          headers: headers
       })
       .then((res) => res.json() as unknown as SocialEventDetailsResponse)
       .catch((error) => {
@@ -26,13 +29,14 @@ function getSocialEventDetails(fetchURL: string): Promise<SocialEventDetailsResp
 };
 
 function useSocialEventDetails(socialEventId: string): UseQueryResult<SocialEventDetailsResponse> {
+  const auth = useAuth();
   const fetchURL = useSocialEventDetailsFetchUrl(socialEventId);  
 
   return useQuery<SocialEventDetailsResponse>({
       queryKey: [...SocialEventQueryKeys.details, socialEventId],
       queryFn: async () =>
       {
-        return await getSocialEventDetails(fetchURL);
+        return await getSocialEventDetails(auth.user?.access_token, fetchURL);
       }
   });
 }

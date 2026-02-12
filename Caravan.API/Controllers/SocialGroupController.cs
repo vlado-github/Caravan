@@ -15,11 +15,13 @@ public class SocialGroupController : ControllerBase
 {
     private readonly IMessageBus _bus;
     private readonly ISocialGroupQuery  _query;
+    private readonly IUserContext _userContext;
 
-    public SocialGroupController(IMessageBus bus, ISocialGroupQuery query)
+    public SocialGroupController(IMessageBus bus, ISocialGroupQuery query, IUserContext userContext)
     {
         _bus = bus;
         _query = query;
+        _userContext = userContext;
     }
 
     [HttpGet("list")]
@@ -27,7 +29,16 @@ public class SocialGroupController : ControllerBase
         [FromQuery] int pageNumber,
         [FromQuery] int pageSize)
     {
-        return await _query.List(pageNumber, pageSize);
+        return await _query.List(_userContext.UserId, pageNumber, pageSize);
+    }
+    
+    [HttpGet("selection")]
+    public async Task<PagedResult<SocialGroup>> GetSocialGroupsSelection(
+        [FromQuery] int pageNumber, 
+        [FromQuery] int pageSize,
+        [FromQuery] string? searchTerm = null)
+    {
+        return await _query.ListSelection(_userContext.UserId, pageNumber, pageSize, searchTerm);
     }
 
     [HttpPost]

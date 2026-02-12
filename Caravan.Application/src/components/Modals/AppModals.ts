@@ -10,6 +10,8 @@ class AppModals {
     publishSocialEvent: 'publishSocialEvent',
     rescheduleSocialEvent: 'rescheduleSocialEvent',
     updateGroup: 'updateGroup',
+    joinGroup: 'joinGroup',
+    leaveGroup: 'leaveGroup',
   };
 
   public static modals = [

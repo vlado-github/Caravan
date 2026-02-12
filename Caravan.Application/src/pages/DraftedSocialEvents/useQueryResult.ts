@@ -3,7 +3,7 @@ import { useDraftedSocialEventsPagedQuery } from "../../api/socialevents/queries
 import type { SocialEventResponse } from "../../api/socialevents/responses/SocialEventResponse";
 import type { PagedViewModel } from "../../components/Paging/PagedViewModel";
 import { DefaultConsts } from "../../consts/DefaultConsts";
-import type { DataTableSearch } from "../../components/DataTable/DataTableSearch";
+import type { DataTableSearch } from "../../components/Custom/DataTable/DataTableSearch";
 
 export function useQueryResult(search: DataTableSearch): PagedViewModel<SocialEventResponse> {
   const request = {

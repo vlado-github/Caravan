@@ -1,7 +1,7 @@
 import { useSocialGroupsPagedQuery } from "../../api/groups/queries/get-groups-list";
 import type { PagedQueryRequest } from "../../api/groups/requests/PagedQueryRequest";
 import type { SocialGroupResponse } from "../../api/groups/responses/SocialGroupResponse";
-import type { DataTableSearch } from "../../components/DataTable/DataTableSearch";
+import type { DataTableSearch } from "../../components/Custom/DataTable/DataTableSearch";
 import type { PagedViewModel } from "../../components/Paging/PagedViewModel";
 import { DefaultConsts } from "../../consts/DefaultConsts";
 

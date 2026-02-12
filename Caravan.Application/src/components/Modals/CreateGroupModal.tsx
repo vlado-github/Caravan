@@ -14,10 +14,7 @@ const schema = z.object({
     .min(2, { message: 'Name should have at least 2 letters' }),
 });
 
-const CreateGroupModal = ({
-  context,
-  id,
-}: ContextModalProps<{ modalData: CreateGroupRequest }>) => {
+export const CreateGroupForm = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
   const form = useForm<CreateGroupRequest>({
     initialValues: {
@@ -31,7 +28,7 @@ const CreateGroupModal = ({
   const handleSubmit = (values: CreateGroupRequest) => {
     mutate(values, {
       onSuccess: () => {
-        context.closeModal(id);
+        onClose();
         notifications.show({
           title: t("Success"),
           color: "green",
@@ -59,7 +56,7 @@ const CreateGroupModal = ({
         />
 
         <Group justify="space-between">
-          <Button variant="outline" onClick={() => context.closeModal(id)}>
+          <Button variant="outline" onClick={onClose}>
             {t("Cancel")}
           </Button>
           <Button type="submit">{t("Create")}</Button>
@@ -67,6 +64,13 @@ const CreateGroupModal = ({
       </Stack>
     </form>
   );
+};
+
+const CreateGroupModal = ({
+  context,
+  id,
+}: ContextModalProps<{ modalData: CreateGroupRequest }>) => {
+  return <CreateGroupForm onClose={() => context.closeModal(id)} />;
 };
 
 export default CreateGroupModal;

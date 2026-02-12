@@ -7,6 +7,9 @@ export type SocialEventDetailsResponse = {
   description: string;
   type: SocialEventType;
   status: SocialEventStatus;
+  socialGroupId: string;
+  socialGroupName: string;
+  isSocialGroupMember: boolean;
   isPrivate: boolean;
   venue: string;
   city: string;
