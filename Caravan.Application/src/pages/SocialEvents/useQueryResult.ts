@@ -8,7 +8,7 @@ export function useQueryResult(searchTerm: string = ""): InfiniteScrollViewModel
   const request = {
     searchTerm: searchTerm,
     pageNumber: DefaultConsts.FirstPageIndex,
-    pageSize: DefaultConsts.RowsPerPage
+    pageSize: DefaultConsts.ItemsPerPage
   } as InfiniteScrollQueryRequest;
 
   const { 

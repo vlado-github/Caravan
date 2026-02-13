@@ -50,16 +50,16 @@ export const socialEventsRoute = createRoute({
   path: "/events",
   component: SocialEvents,
   validateSearch: (search: Record<string, unknown>): SearchParam => {
-      if (Object.keys(search).length === 0)
-      {
-          return {
-            searchTerm: "",
-          };
-      }
-      return {
-        searchTerm: String(search?.searchTerm || ""),
-      };
-    },
+    if (Object.keys(search).length === 0)
+    {
+        return {
+          searchTerm: "",
+        };
+    }
+    return {
+      searchTerm: String(search?.searchTerm || ""),
+    };
+  },
 });
 
 export default SocialEvents;

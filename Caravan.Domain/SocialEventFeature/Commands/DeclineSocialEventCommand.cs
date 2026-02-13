@@ -7,41 +7,31 @@ using Wolverine.Marten;
 
 namespace Caravan.Domain.SocialEventFeature.Commands;
 
-public class AttendSocialEventCommandValidator : AbstractValidator<AttendSocialEventCommand>
+public class DeclineSocialEventCommandValidator : AbstractValidator<DeclineSocialEventCommand>
 {
-    public AttendSocialEventCommandValidator()
+    public DeclineSocialEventCommandValidator()
     {
         RuleFor(x => x.SocialEventId).NotEmpty();
-        RuleFor(x => x.Title).NotNull().NotEmpty();
-        RuleFor(x => x.StartTime).NotNull().NotEmpty();
-        RuleFor(x => x.AttendanceStatus).NotNull();
     }
 }
 
-public record AttendSocialEventCommand(
-    Guid SocialEventId, 
-    string Title, 
-    DateTimeOffset StartTime, 
-    AttendanceStatus AttendanceStatus = AttendanceStatus.Attending);
+public record DeclineSocialEventCommand(Guid SocialEventId);
 
-public static class AttendSocialEventCommandHandler
+public static class DeclineSocialEventCommandHandler
 {
     [AggregateHandler]
     public static IEnumerable<object> Handle(
-        AttendSocialEventCommand command, 
+        DeclineSocialEventCommand command, 
         [WriteAggregate] SocialEvent socialEvent, 
         IUserContext userContext)
     {
         if (socialEvent.Status != EventStatus.Published)
             throw new InvalidOperationException("Can only attend published events");
 
-        yield return new RsvpSubmitted()
+        yield return new RsvpDeclined()
         {
             Id = command.SocialEventId, 
             UserId = userContext.UserId,
-            AttendanceStatus = command.AttendanceStatus,
-            Title = command.Title,
-            StartTime = command.StartTime
         };
     }
 }

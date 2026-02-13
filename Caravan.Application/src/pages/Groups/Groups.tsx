@@ -102,18 +102,18 @@ export const groupsRoute = createRoute({
     }
   },
   validateSearch: (search: Record<string, unknown>): PageSearchParam => {
-      if (Object.keys(search).length === 0)
-      {
-          return {
-            start: DefaultConsts.FirstPageIndex,
-            size: DefaultConsts.RowsPerTable,
-          };
-      }
-      return {
-        start: Number(search?.start ?? DefaultConsts.FirstPageIndex),
-        size: Number(search?.size ?? DefaultConsts.RowsPerTable),
-      };
-    },
+    if (Object.keys(search).length === 0)
+    {
+        return {
+          start: DefaultConsts.FirstPageIndex,
+          size: DefaultConsts.RowsPerTable,
+        };
+    }
+    return {
+      start: Number(search?.start ?? DefaultConsts.FirstPageIndex),
+      size: Number(search?.size ?? DefaultConsts.RowsPerTable),
+    };
+  },
 });
 
 export default Groups;

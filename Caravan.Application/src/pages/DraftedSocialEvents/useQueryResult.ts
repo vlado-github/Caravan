@@ -8,7 +8,7 @@ import type { DataTableSearch } from "../../components/Custom/DataTable/DataTabl
 export function useQueryResult(search: DataTableSearch): PagedViewModel<SocialEventResponse> {
   const request = {
     pageNumber: search?.start ?? DefaultConsts.FirstPageIndex,
-    pageSize: search?.size ?? 10
+    pageSize: search?.size ?? DefaultConsts.RowsPerTable
   } as PagedQueryRequest;
 
   const { data, isLoading } = useDraftedSocialEventsPagedQuery(request);

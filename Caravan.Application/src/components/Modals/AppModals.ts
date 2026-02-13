@@ -1,6 +1,7 @@
 import CreateGroupModal from "./CreateGroupModal";
 import CreateSocialEventModal from "./CreateSocialEventModal";
 import RescheduleSocialEventModal from "./RescheduleSocialEventModal";
+import RsvpSocialEventModal from "./SubmitAttendanceModal";
 import UpdateGroupModal from "./UpdateGroupModal";
 
 class AppModals {
@@ -12,6 +13,8 @@ class AppModals {
     updateGroup: 'updateGroup',
     joinGroup: 'joinGroup',
     leaveGroup: 'leaveGroup',
+    submitAttendance: 'submitAttendance',
+    declineAttendance: 'declineAttendance'
   };
 
   public static modals = [
@@ -19,6 +22,7 @@ class AppModals {
     { title: this.modalKeys.createGroup, modal: CreateGroupModal },
     { title: this.modalKeys.rescheduleSocialEvent, modal: RescheduleSocialEventModal },
     { title: this.modalKeys.updateGroup, modal: UpdateGroupModal },
+    { title: this.modalKeys.submitAttendance, modal: RsvpSocialEventModal },
   ];
 
   public static getModals() {

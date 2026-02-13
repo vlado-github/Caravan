@@ -7,7 +7,7 @@ public record RsvpSubmitted : EventBase
 {
     public Guid Id { get; init; }
     public Guid UserId { get; init; }
-    public AttendanceStatus AttendanceStatus { get; init; }
+    public AttendanceStatus AttendanceStatus { get; init; } = AttendanceStatus.Attending;
     public string Title { get; init; }
     public DateTimeOffset StartTime { get; init; }
 }

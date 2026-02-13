@@ -8,6 +8,6 @@ public static class Registry
     public static void AddSocialEventProjections(this ProjectionOptions options)
     {
         options.Add<SocialEventProfile>(ProjectionLifecycle.Inline);
-        options.Add<UserAttendanceSchedule>(ProjectionLifecycle.Async);
+        options.Add<UserAttendanceSchedule>(ProjectionLifecycle.Inline);
     }
 }

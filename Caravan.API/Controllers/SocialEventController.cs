@@ -57,7 +57,13 @@ public class SocialEventController : ControllerBase
     }
     
     [HttpPost("attend")]
-    public async Task<CommandResult> AttendSocialEvent([FromBody] AttendSocialEventCommand command)
+    public async Task<CommandResult> SubmitAttendance([FromBody] AttendSocialEventCommand command)
+    {
+        return await _bus.InvokeAsync<CommandResult>(command);
+    }
+    
+    [HttpPost("decline")]
+    public async Task<CommandResult> DeclineAttendance([FromBody] DeclineSocialEventCommand command)
     {
         return await _bus.InvokeAsync<CommandResult>(command);
     }
@@ -94,5 +100,13 @@ public class SocialEventController : ControllerBase
         {
             CreatedByUserId = _userContext.UserId
         }, pageNumber, pageSize);
+    }
+    
+    [HttpGet("attendance")]
+    public async Task<PagedResult<UserAttendingEvent>> GetAttendance(
+        [FromQuery] int pageNumber, 
+        [FromQuery] int pageSize)
+    {
+        return await _query.ListAttendance(_userContext.UserId, pageNumber, pageSize);
     }
 }
