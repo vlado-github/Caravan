@@ -11,7 +11,7 @@ const SubmitAttendanceModal = ({
   context,
   innerProps,
   id,
-}: ContextModalProps<{ modalData: SubmitAttendnanceRequest }>) => {
+}: ContextModalProps<{ modalData: SubmitAttendnanceRequest; onSuccess?: () => void }>) => {
   const { t } = useTranslation();
   const form = useForm<SubmitAttendnanceRequest>({
     initialValues: {
@@ -28,6 +28,7 @@ const SubmitAttendanceModal = ({
     mutate(values, {
       onSuccess: () => {
         context.closeModal(id);
+        innerProps.onSuccess?.();
         notifications.show({
           title: t("Success"),
           color: "green",

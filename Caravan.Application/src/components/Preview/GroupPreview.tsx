@@ -1,4 +1,4 @@
-import { Text, Button } from "@mantine/core";
+import { Group, Text, Button } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useJoinGroup } from "../../api/groups/commands/join-group";
@@ -118,18 +118,18 @@ const GroupPreview: React.FC<GroupPreviewProps> = ({ socialGroupId, isSocialGrou
     <div>
       {
         socialGroupId ?
-        <div>
-          {t("Group")} : {socialGroupName} 
+        <Group>
+          <i>{t("Group")}: {socialGroupName}</i>
           <div>
             {
               isMember
-              ? <Button onClick={async () => auth.isAuthenticated ? openLeaveModal() : await handleSignin()}>{t("Leave")}</Button>
-              : <Button onClick={async () => auth.isAuthenticated ? openJoinModal() : await handleSignin()}>{t("Join")}</Button>
+              ? <Button color="orange" size="xs" onClick={async () => auth.isAuthenticated ? openLeaveModal() : await handleSignin()}>{t("Leave")}</Button>
+              : <Button color="green" size="xs" onClick={async () => auth.isAuthenticated ? openJoinModal() : await handleSignin()}>{t("Join")}</Button>
             }
           </div>
-        </div>
+        </Group>
         :
-        <Text>{t("No group")}</Text>
+        null
       }
     </div>);
 }
