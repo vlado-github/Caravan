@@ -1,7 +1,6 @@
 using Marten.Pagination;
 using Caravan.Domain.Base;
 using Caravan.Domain.SocialEventFeature.Schema.Projections;
-using Marten.Linq.SoftDeletes;
 
 namespace Caravan.Domain.SocialEventFeature.Queries;
 
@@ -27,6 +26,34 @@ public partial class SocialEventQuery
             .ToPagedListAsync(pageNumber, pageSize);
 
         return new PagedResult<SocialEventProfileDetails>
+        {
+            Items = result.ToList(),
+            Count = result.Count,
+            PageNumber = result.PageNumber,
+            PageSize = result.PageSize,
+            PageCount = result.PageCount,
+            TotalItemCount = result.TotalItemCount,
+            HasNextPage = result.HasNextPage,
+            HasPreviousPage = result.HasPreviousPage,
+            IsFirstPage = result.IsFirstPage,
+            IsLastPage = result.IsLastPage,
+            FirstItemOnPage = result.FirstItemOnPage,
+            LastItemOnPage = result.LastItemOnPage
+        };
+    }
+
+    public async Task<PagedResult<UserAttendingEvent>> ListAttendance(
+        Guid userId, 
+        int pageNumber = 1, 
+        int pageSize = 10)
+    {
+        var result = await _querySession
+                .Query<UserAttendingEvent>()
+                .Where(x => x.UserId == userId 
+                            && x.StartTime >= DateTimeOffset.UtcNow)
+                .ToPagedListAsync(pageNumber, pageSize);
+        
+        return new PagedResult<UserAttendingEvent>
         {
             Items = result.ToList(),
             Count = result.Count,

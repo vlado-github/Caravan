@@ -26,6 +26,7 @@ public class SocialEvent : AggregateRootBase
     public DateTimeOffset? PublishedAt { get; private set; } = null;
     public DateTimeOffset? CancelledAt { get; private set; } = null;
     public DateTimeOffset? ArchivedAt { get; private set; } = null;
+    public IDictionary<Guid, AttendanceStatus> Attendees { get; set; } = new Dictionary<Guid, AttendanceStatus>();
     
     public static SocialEvent Create(SocialEventDrafted @event)
     {
@@ -70,6 +71,18 @@ public class SocialEvent : AggregateRootBase
     {
         current.StartTime = @event.StartTime;
         current.EndTime = @event.EndTime;
+        return current;
+    }
+
+    public static SocialEvent Apply(SocialEvent current, RsvpSubmitted @event)
+    {
+        current.Attendees.Add(@event.UserId, @event.AttendanceStatus);
+        return current;
+    }
+    
+    public static SocialEvent Apply(SocialEvent current, RsvpDeclined @event)
+    {
+        current.Attendees.Remove(@event.UserId);
         return current;
     }
 }

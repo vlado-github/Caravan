@@ -4,8 +4,9 @@ import type { SocialEventResponse } from "../../api/socialevents/responses/Socia
 import type { InfiniteScrollQueryRequest } from "../../api/base/requests/InfiniteScrollQueryRequest";
 import type { InfiniteScrollViewModel } from "../../components/Paging/InfiniteScrollViewModel";
 
-export function useQueryResult(): InfiniteScrollViewModel<SocialEventResponse> {
+export function useQueryResult(searchTerm: string = ""): InfiniteScrollViewModel<SocialEventResponse> {
   const request = {
+    searchTerm: searchTerm,
     pageNumber: DefaultConsts.FirstPageIndex,
     pageSize: DefaultConsts.RowsPerPage
   } as InfiniteScrollQueryRequest;

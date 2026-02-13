@@ -56,6 +56,12 @@ public class SocialEventController : ControllerBase
         await _bus.InvokeAsync<CommandResult>(command);
     }
     
+    [HttpPost("attend")]
+    public async Task<CommandResult> AttendSocialEvent([FromBody] AttendSocialEventCommand command)
+    {
+        return await _bus.InvokeAsync<CommandResult>(command);
+    }
+    
     [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async Task<SocialEvent> GetSocialEvent([FromRoute] Guid id)
@@ -68,12 +74,14 @@ public class SocialEventController : ControllerBase
     [HttpGet("list")]
     public async Task<PagedResult<SocialEventProfileDetails>> GetSocialEvents(
         [FromQuery] int pageNumber, 
-        [FromQuery] int pageSize)
+        [FromQuery] int pageSize,
+        [FromQuery] string? searchTerm = null)
     {
         return await _query.List(new SocialEventQueryFilter()
         {
             Status = EventStatus.Published,
             OmitPastEvents = true,
+            Search = searchTerm,
         }, pageNumber, pageSize);
     }
     

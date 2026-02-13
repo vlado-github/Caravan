@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoute, useSearch } from '@tanstack/react-router';
 import { rootRoute, type RoutingContext } from '../../AppRouter';
 import { DefaultConsts } from '../../consts/DefaultConsts';
-import type { PageSearch } from '../../components/Paging/PageSearch';
+import type { PageSearch } from '../../components/Paging/PageSearchParam';
 import { useQueryResult } from './useQueryResult';
 import { Button, Group, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';

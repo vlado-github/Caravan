@@ -3,12 +3,12 @@ import useSelectorParams from "../Custom/Selector/SelectorParams";
 import { useMemo } from "react";
 import type { InfiniteScrollQueryRequest } from "../../api/base/requests/InfiniteScrollQueryRequest";
 import { useSocialGroupsSelectionInfiniteScrollQuery } from "../../api/groups/queries/get-groups-selection-list";
-import { QueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { GroupQueryKeys } from "../../api/groups/queries/query-keys";
 
 export default function useGroupSelectorModel(): SelectorModel {
     const selectorParams = useSelectorParams();
-    const queryClient = new QueryClient();
+    const queryClient = useQueryClient();
 
     const request = useMemo(() => ({
         search: selectorParams.debouncedSearch,
