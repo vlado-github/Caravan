@@ -7,4 +7,5 @@ public record SocialEventRescheduled : EventBase
     public Guid Id { get; init; }
     public DateTimeOffset StartTime { get; init; }
     public DateTimeOffset? EndTime { get; init; } = null;
+    public Guid RescheduledBy { get; init; }
 }

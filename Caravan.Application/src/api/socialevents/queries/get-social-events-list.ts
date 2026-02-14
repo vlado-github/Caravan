@@ -11,6 +11,7 @@ const urls = {
 
 function useSocialEventsListFetchUrl(request: InfiniteScrollQueryRequest){
   const url = urls.list;
+  url.searchParams.set('searchTerm', `${request.searchTerm}`);
   url.searchParams.set('pageNumber', `${request.pageNumber}`);
   url.searchParams.set('pageSize', `${request.pageSize}`);
   return url.href;
@@ -47,6 +48,7 @@ export function useSocialEventsInfiniteScrollQuery(request: InfiniteScrollQueryR
     },
     queryFn: async ({ pageParam = 0 }) => {
       const url = urls.list; // Use the infinite URL for infinite scroll queries
+      url.searchParams.set('searchTerm', `${request.searchTerm}`);
       url.searchParams.set('pageNumber', `${pageParam}`);
       url.searchParams.set('pageSize', `${request.pageSize}`);
       return await getSocialEventsListPage(url.href);

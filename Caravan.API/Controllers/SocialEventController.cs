@@ -56,6 +56,18 @@ public class SocialEventController : ControllerBase
         await _bus.InvokeAsync<CommandResult>(command);
     }
     
+    [HttpPost("attend")]
+    public async Task<CommandResult> SubmitAttendance([FromBody] AttendSocialEventCommand command)
+    {
+        return await _bus.InvokeAsync<CommandResult>(command);
+    }
+    
+    [HttpPost("decline")]
+    public async Task<CommandResult> DeclineAttendance([FromBody] DeclineSocialEventCommand command)
+    {
+        return await _bus.InvokeAsync<CommandResult>(command);
+    }
+    
     [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async Task<SocialEvent> GetSocialEvent([FromRoute] Guid id)
@@ -68,12 +80,14 @@ public class SocialEventController : ControllerBase
     [HttpGet("list")]
     public async Task<PagedResult<SocialEventProfileDetails>> GetSocialEvents(
         [FromQuery] int pageNumber, 
-        [FromQuery] int pageSize)
+        [FromQuery] int pageSize,
+        [FromQuery] string? searchTerm = null)
     {
         return await _query.List(new SocialEventQueryFilter()
         {
             Status = EventStatus.Published,
             OmitPastEvents = true,
+            Search = searchTerm,
         }, pageNumber, pageSize);
     }
     
@@ -86,5 +100,13 @@ public class SocialEventController : ControllerBase
         {
             CreatedByUserId = _userContext.UserId
         }, pageNumber, pageSize);
+    }
+    
+    [HttpGet("attendance")]
+    public async Task<PagedResult<UserAttendingEvent>> GetAttendance(
+        [FromQuery] int pageNumber, 
+        [FromQuery] int pageSize)
+    {
+        return await _query.ListAttendance(_userContext.UserId, pageNumber, pageSize);
     }
 }

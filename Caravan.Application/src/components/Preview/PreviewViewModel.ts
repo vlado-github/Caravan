@@ -1,3 +1,4 @@
+import type { AttendanceStatus } from "../../api/base/enums/AttendanceStatus";
 import type { SocialEventStatus } from "../../api/base/enums/SocialEventStatus";
 import type { SocialEventType } from "../../api/base/enums/SocialEventType";
 
@@ -27,4 +28,5 @@ export type PreviewViewModel = {
   cancelledAt: Date | null;
   archivedAt: Date | null;
   isLoading: boolean;
+  attendanceStatus: AttendanceStatus;
 }

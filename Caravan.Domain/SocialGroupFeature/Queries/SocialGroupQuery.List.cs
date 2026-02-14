@@ -46,7 +46,7 @@ public partial class SocialGroupQuery
             .Where(x => x.CreatedById == userId);
         if (!string.IsNullOrEmpty(searchTerm))
         {
-            query = query.Where(x => x.Name.StartsWith(searchTerm));
+            query = query.Where(x => x.Name.Contains(searchTerm));
         }
             
         var result = await query

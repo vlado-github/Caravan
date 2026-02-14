@@ -23,7 +23,7 @@ const DataTable = <T extends object>({model, actions, search, columns} : DataTab
     state: { 
       pagination :{
         pageIndex: search?.start ? search.start - 1 : DefaultConsts.FirstPageIndex - 1,
-        pageSize: search?.size ?? DefaultConsts.RowsPerPage,
+        pageSize: search?.size ?? DefaultConsts.ItemsPerPage,
       }
     },
     manualPagination: true,
@@ -33,7 +33,7 @@ const DataTable = <T extends object>({model, actions, search, columns} : DataTab
     onPaginationChange: (updater) => {
       const data = functionalUpdate(updater, {
         pageIndex: search?.start ? search.start - 1 : DefaultConsts.FirstPageIndex - 1,
-        pageSize: search?.size ? search.size : DefaultConsts.RowsPerPage
+        pageSize: search?.size ? search.size : DefaultConsts.ItemsPerPage
       });
       navigate({
         to: '.', 

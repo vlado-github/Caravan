@@ -10,7 +10,7 @@ import { createColumnHelper, type ColumnDef } from "@tanstack/react-table";
 import type { SocialGroupResponse } from "../../api/groups/responses/SocialGroupResponse";
 import DataTable from "../../components/Custom/DataTable/DataTable";
 import { useQueryResult } from "./useQueryResult";
-import type { PageSearch } from "../../components/Paging/PageSearch";
+import type { PageSearchParam } from "../../components/Paging/PageSearchParam";
 import { DefaultConsts } from "../../consts/DefaultConsts";
 import type { UpdateGroupRequest } from "../../api/groups/requests/UpdateGroupRequest";
 import { useAuth } from "react-oidc-context";
@@ -101,19 +101,19 @@ export const groupsRoute = createRoute({
       await context.auth.signinRedirect({ ui_locales: i18n.language });
     }
   },
-  validateSearch: (search: Record<string, unknown>): PageSearch => {
-      if (Object.keys(search).length === 0)
-      {
-          return {
-            start: DefaultConsts.FirstPageIndex,
-            size: DefaultConsts.RowsPerTable,
-          };
-      }
-      return {
-        start: Number(search?.start ?? DefaultConsts.FirstPageIndex),
-        size: Number(search?.size ?? DefaultConsts.RowsPerTable),
-      };
-    },
+  validateSearch: (search: Record<string, unknown>): PageSearchParam => {
+    if (Object.keys(search).length === 0)
+    {
+        return {
+          start: DefaultConsts.FirstPageIndex,
+          size: DefaultConsts.RowsPerTable,
+        };
+    }
+    return {
+      start: Number(search?.start ?? DefaultConsts.FirstPageIndex),
+      size: Number(search?.size ?? DefaultConsts.RowsPerTable),
+    };
+  },
 });
 
 export default Groups;

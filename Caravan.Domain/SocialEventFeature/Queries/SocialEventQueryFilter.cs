@@ -7,9 +7,7 @@ namespace Caravan.Domain.SocialEventFeature.Queries;
 
 public class SocialEventQueryFilter
 {
-    public string? SearchTitle { get; set; } = null;
-    public string? SearchDescription { get; set; } = null;
-    public string? SearchVenue { get; set; } = null;
+    public string? Search { get; set; } = null;
     public Guid? SocialGroupId { get; set; } = null;
     public Guid? CreatedByUserId { get; set; } = null;
     public EventType? Type { get; set; } = null;
@@ -25,17 +23,11 @@ internal static class SocialEventQueryFilterHelper
         SocialEventQueryFilter filter)
     {
         IQueryable<SocialEventProfileDetails> queryBuilder = query;
-        if (!string.IsNullOrEmpty(filter.SearchTitle))
+        if (!string.IsNullOrEmpty(filter.Search))
         {
-            queryBuilder = queryBuilder.Where(x => x.Title.Contains(filter.SearchTitle));
-        }
-        if (!string.IsNullOrEmpty(filter.SearchDescription))
-        {
-            queryBuilder = queryBuilder.Where(x => x.Description.Contains(filter.SearchDescription));
-        }
-        if (!string.IsNullOrEmpty(filter.SearchVenue))
-        {
-            queryBuilder = queryBuilder.Where(x => x.Venue.Contains(filter.SearchVenue));
+            queryBuilder = queryBuilder.Where(x => x.Title.Contains(filter.Search, StringComparison.OrdinalIgnoreCase)
+                                                   || x.Description.Contains(filter.Search, StringComparison.OrdinalIgnoreCase)
+                                                   || x.Venue.Contains(filter.Search, StringComparison.OrdinalIgnoreCase));
         }
         if (filter.SocialGroupId != null)
         {

@@ -1,3 +1,4 @@
+import type { AttendanceStatus } from "../../base/enums/AttendanceStatus";
 import type { SocialEventStatus } from "../../base/enums/SocialEventStatus";
 import type { SocialEventType } from "../../base/enums/SocialEventType";
 
@@ -26,4 +27,5 @@ export type SocialEventDetailsResponse = {
   publishedAt: Date | null;
   cancelledAt: Date | null;
   archivedAt: Date | null;
+  attendanceStatus: AttendanceStatus;
 }
