@@ -1,5 +1,5 @@
 import type { SocialEventResponse } from "../../api/socialevents/responses/SocialEventResponse";
-import { Grid, ScrollArea } from "@mantine/core";
+import { Grid, Loader, ScrollArea } from "@mantine/core";
 import GalleryTile from "./GalleryTile";
 import { DefaultConsts } from "../../consts/DefaultConsts";
 import { useNavigate } from "@tanstack/react-router";
@@ -29,7 +29,7 @@ const GalleryLayout: React.FC<GalleryLayoutProps> = ({viewModel, actions, maxIte
   };
 
   if (viewModel.isLoading) {
-    return <div>Loading...</div>;
+    return <Loader size="xs"/>;
   }
 
   const onClickAction = (itemId: string) => {

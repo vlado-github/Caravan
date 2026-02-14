@@ -8,13 +8,13 @@ export function useQueryResult(): PreviewViewModel {
 
     const { data, isLoading } = useSocialEventDetails(params?.eventId ?? '');
 
-    if (!data) {
-      return {} as PreviewViewModel;
+    if (data && !isLoading){
+      const viewModel: PreviewViewModel = {
+        ...data,
+        isLoading: isLoading
+      }
+      return viewModel;
+    } else {
+      return {isLoading} as PreviewViewModel;
     }
-    
-    const viewModel: PreviewViewModel = {
-      ...data,
-      isLoading: isLoading
-    }
-    return viewModel;
 }

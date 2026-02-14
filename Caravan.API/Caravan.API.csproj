@@ -29,4 +29,8 @@
       <InternalsVisibleTo Include="Caravan.Tests" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Internal\" />
+    </ItemGroup>
+
 </Project>

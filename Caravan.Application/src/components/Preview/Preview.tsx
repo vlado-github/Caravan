@@ -3,11 +3,11 @@ import type { SocialEventType } from '../../api/base/enums/SocialEventType';
 import { DefaultConsts } from '../../consts/DefaultConsts';
 import DateTimeDisplay from '../DateTime/DateTimeDisplay';
 import styles from './Preview.module.scss';
-import { Grid, Image, Stack } from '@mantine/core';
+import { Grid, Image, Loader, Stack } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { type ReactElement } from 'react';
 import GroupPreview from './GroupPreview';
 import RsvpPreview from './RsvpPreview';
+import type { AttendanceStatus } from '../../api/base/enums/AttendanceStatus';
 
 interface PreviewProps{
     event: {
@@ -35,12 +35,18 @@ interface PreviewProps{
       publishedAt: Date | null;
       cancelledAt: Date | null;
       archivedAt: Date | null;
-    },
-    actions?: ReactElement;
+      attendanceStatus: AttendanceStatus;
+      isLoading: boolean;
+    }
 }
 
-const Preview: React.FC<PreviewProps> = ({ event, actions }) => {
+const Preview: React.FC<PreviewProps> = ({ event }) => {
   const { t } = useTranslation();
+      
+  
+  if (event.isLoading) {
+    return <Loader size="md" />; 
+  }
 
   return (
     <Grid>
@@ -70,14 +76,13 @@ const Preview: React.FC<PreviewProps> = ({ event, actions }) => {
               <DateTimeDisplay label={t("End time")} dateTime={event.endTime}/>
             </p>
             <p className={styles.socialEventPreviewVenue}>{event.venue}, {event.city}</p>
-            
           </div>
           <div>
             <RsvpPreview
               socialEventId={event.id}
               title={event.title}
               startTime={event.startTime}
-              isAttending={false} />
+              isAttending={event.attendanceStatus != null} />
           </div>
         </Stack>
       </Grid.Col>

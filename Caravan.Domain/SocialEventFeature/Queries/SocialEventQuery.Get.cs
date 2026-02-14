@@ -1,5 +1,6 @@
 using Caravan.Domain.Shared.Exceptions;
 using Caravan.Domain.SocialEventFeature.Schema.Aggregates;
+using Caravan.Domain.SocialEventFeature.Schema.Projections;
 using Caravan.Domain.SocialGroupFeature.Schema.Documents;
 using Marten;
 
@@ -32,6 +33,11 @@ public partial class SocialEventQuery
                 socialEvent.IsSocialGroupMember = membership != null;
             }
         }
+        
+        var attendance = await _querySession
+            .Query<UserAttendingEvent>()
+            .SingleOrDefaultAsync(x => x.EventId == id && x.UserId == userId);
+        socialEvent.AttendanceStatus = attendance?.AttendanceStatus;
 
         return socialEvent;
     }

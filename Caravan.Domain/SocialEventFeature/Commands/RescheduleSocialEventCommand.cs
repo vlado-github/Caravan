@@ -1,4 +1,5 @@
-﻿using Caravan.Domain.Shared.Enums;
+﻿using Caravan.Domain.Base;
+using Caravan.Domain.Shared.Enums;
 using Caravan.Domain.SocialEventFeature.Events;
 using Caravan.Domain.SocialEventFeature.Schema.Aggregates;
 using FluentValidation;
@@ -27,7 +28,7 @@ public record RescheduleSocialEventCommand(Guid SocialEventId, DateTimeOffset St
 public static class RescheduleSocialEventCommandHandler
 {
     [AggregateHandler]
-    public static IEnumerable<object> Handle(RescheduleSocialEventCommand command, [WriteAggregate] SocialEvent socialEvent)
+    public static IEnumerable<object> Handle(RescheduleSocialEventCommand command, [WriteAggregate] SocialEvent socialEvent, IUserContext userContext)
     {
         if (socialEvent.Status is EventStatus.Cancelled or EventStatus.Archived)
             throw new InvalidOperationException("Can't reschedule cancelled or archived event");
@@ -36,7 +37,8 @@ public static class RescheduleSocialEventCommandHandler
         {
             Id = command.SocialEventId, 
             StartTime =  command.StartTime, 
-            EndTime = command.EndTime
+            EndTime = command.EndTime,
+            RescheduledBy = userContext.UserId
         };
     }
 }

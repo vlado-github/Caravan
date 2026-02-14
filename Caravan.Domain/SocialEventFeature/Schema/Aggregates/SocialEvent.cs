@@ -27,6 +27,7 @@ public class SocialEvent : AggregateRootBase
     public DateTimeOffset? CancelledAt { get; private set; } = null;
     public DateTimeOffset? ArchivedAt { get; private set; } = null;
     public IDictionary<Guid, AttendanceStatus> Attendees { get; set; } = new Dictionary<Guid, AttendanceStatus>();
+    public AttendanceStatus? AttendanceStatus { get; set; } = null;
     
     public static SocialEvent Create(SocialEventDrafted @event)
     {

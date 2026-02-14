@@ -25,9 +25,9 @@ internal static class SocialEventQueryFilterHelper
         IQueryable<SocialEventProfileDetails> queryBuilder = query;
         if (!string.IsNullOrEmpty(filter.Search))
         {
-            queryBuilder = queryBuilder.Where(x => x.Title.Contains(filter.Search)
-                                                   || x.Description.Contains(filter.Search)
-                                                   || x.Venue.Contains(filter.Search));
+            queryBuilder = queryBuilder.Where(x => x.Title.Contains(filter.Search, StringComparison.OrdinalIgnoreCase)
+                                                   || x.Description.Contains(filter.Search, StringComparison.OrdinalIgnoreCase)
+                                                   || x.Venue.Contains(filter.Search, StringComparison.OrdinalIgnoreCase));
         }
         if (filter.SocialGroupId != null)
         {

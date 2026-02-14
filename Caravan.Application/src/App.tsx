@@ -4,6 +4,7 @@ import { router } from './AppRouter.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ModalsProvider } from '@mantine/modals';
 import AppModals from './components/Modals/AppModals.ts';
+import { Loader } from '@mantine/core';
 
 const queryClient = new QueryClient();
 
@@ -34,7 +35,7 @@ function AppWithAuth() {
   const auth = useAuth();
 
   if (auth.isLoading) {
-    return <div>Loading authentication…</div>;
+    return <Loader size="xs" />;
   }
 
   if (auth.error) {
