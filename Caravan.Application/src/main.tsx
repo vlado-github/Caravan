@@ -6,12 +6,15 @@ import '@mantine/notifications/styles.css';
 import App from './App.tsx'
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <MantineProvider>
-      <Notifications position='top-right' />
-      <App />
+      <ErrorBoundary>
+        <Notifications position='top-right' />
+        <App />
+      </ErrorBoundary>
     </MantineProvider>
   </StrictMode>
 )
